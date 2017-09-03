@@ -2,18 +2,19 @@
 
 class DingtalkNotify {
 
-    const HTTP_METHOD_GET='get';
-    const HTTP_METHOD_POST='post';
-
     /**
      * 钉钉通知地址
      * @var string
      */
-    protected $notifyUrl="https://oapi.dingtalk.com/robot/send?access_token=865acac088fc8dacf5ca42fefbb56380b38d16d96f5bbcf50fbf6961a31f2016";
+    private $notify_url="https://oapi.dingtalk.com/robot/send";
 
-    public function __construct($url=''){
+    protected $access_token;
 
-        !empty($url) && $this->notifyUrl=$url;
+    public function __construct($access_token){
+
+        $this->access_token=$access_token;
+
+        if(empty($this->access_token)) exit("Dingtalk's robot access_token is missing");
     }
     /**
      * 创建jira issue的通知
@@ -23,30 +24,77 @@ class DingtalkNotify {
      * @param  array $priority  
      * @return 
      */
-    public function issueCreate($title,$summary,$url,$assignee,$priority){
+    public function issueCreate(JiraMessage $jira_message){
 
-        if(empty($title)) return false;
+        $title=$jira_message->getIssueTitle();
+        $summary=$jira_message->getIssueSummary();
+        $priority=$jira_message->getIssuePriority();
+        $assignee=$jira_message->getIssueAssigneePhone();
+        $url=$jira_message->getIssueUrl();
 
         $text="> {$summary}\n> {$priority['name']}\n### 查看[Jira]({$url})";
 
-        $data=$this->text($title,"test",[$assignee]);
+        $data=$this->text('[NEW]'.$title,$text,[$assignee]);
         // print_r($data);
-        $resp=$this->http($this->notifyUrl,$data);
+        $resp=$this->http($data);
 
         return $resp;
     }
 
-    public function issueUpdated($title,$summary,$url,$assignee,$priority){
+    public function issueUpdated(JiraMessage $jira_message){
 
-        if(empty($title)) return false;
+        $title=$jira_message->getIssueTitle();
+        $summary=$jira_message->getIssueSummary();
+        $priority=$jira_message->getIssuePriority();
+        $assignee=$jira_message->getIssueAssigneePhone();
+        $url=$jira_message->getIssueUrl();
 
         $text="> {$summary}\n> ![]({$priority['icon']}){$priority['name']}\n###查看[Jira]({$url})";
 
         $data=$this->text($title,$text,[$assignee]);
 
-        $resp=$this->http($this->notifyUrl,$data);
+        $resp=$this->http($data);
     }
 
+    /**
+     * Issue has resolved.should notify tester to test
+     * @param  JiraMessage $jira_message 
+     * @return 
+     */
+    public function issueResolved(JiraMessage $jira_message){
+
+        $title=$jira_message->getIssueTitle();
+        $summary=$jira_message->getIssueSummary();
+        $priority=$jira_message->getIssuePriority();
+        $assignee=$jira_message->getIssueAssigneePhone();
+        $url=$jira_message->getIssueUrl();
+
+        $text="> {$summary}\n> ![]({$priority['icon']}){$priority['name']}\n###查看[Jira]({$url})";
+
+        $data=$this->text('[RESOLVED]'.$title,$text,[$assignee]);
+
+        $resp=$this->http($data);
+    }
+
+    /**
+     * Issue has reopened.should notify the developer
+     * @param  JiraMessage $jira_message 
+     * @return 
+     */
+    public function issueReopened(JiraMessage $jira_message){
+
+        $title=$jira_message->getIssueTitle();
+        $summary=$jira_message->getIssueSummary();
+        $priority=$jira_message->getIssuePriority();
+        $assignee=$jira_message->getIssueAssigneePhone();
+        $url=$jira_message->getIssueUrl();
+
+        $text="> {$summary}\n> ![]({$priority['icon']}){$priority['name']}\n###查看[Jira]({$url})";
+
+        $data=$this->text('[REOPEN]'.$title,$text,[$assignee]);
+
+        $resp=$this->http($data);
+    }
 
     private function notify($msgtype){
 
@@ -66,7 +114,7 @@ class DingtalkNotify {
         [
             'msgtype'=>'text',
             'text'=>['content'=>$text],
-            // 'at'=>['atMobiles'=>$assignee,'isAtAll'=>false]
+            'at'=>['atMobiles'=>$assignee,'isAtAll'=>false]
         ];
     }
 
@@ -83,11 +131,11 @@ class DingtalkNotify {
         [
             'msgtype'=>'markdown',
             'markdown'=>['title'=>$title,'text'=>$text],
-            'at'=>['atMobiles'=>['15763951212'],'isAtAll'=>false]
+            'at'=>['atMobiles'=>$assignee,'isAtAll'=>false]
         ];
     }
 
-    private function http($url,$data){
+    private function http($data){
 
         $ch=curl_init();
 
@@ -102,12 +150,12 @@ class DingtalkNotify {
         print_r(json_encode($data));
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         
-        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_URL, $this->notify_url."?access_token=".$this->access_token);
 
         if( ! $result = curl_exec($ch)) {
             $error=curl_error($ch);
         }
-        // print_r($result);
+        print_r($result);
         curl_close($ch);
 
         return $result;

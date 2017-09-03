@@ -8,36 +8,44 @@ $str='{"webhookEvent":"jira:issue_created","user":{"self":"http://101.201.234.44
 
 if(empty($str)) return false;
 
+$access_token=$_GET['access_token'];
+$access_token='865acac088fc8dacf5ca42fefbb56380b38d16d96f5bbcf50fbf6961a31f2016';
+
 $post=json_decode($str,true);
 
 $action=$post['webhookEvent'];
+$is_transition=isset($post['transition']);
 
 include_once(ROOT.'/jira/message.php');
 include_once(ROOT.'/dingtalk/notify.php');
 
 $jira_message=new JiraMessage($post);
-$dingtalk_notify=new DingtalkNotify();
+$dingtalk_notify=new DingtalkNotify($access_token);
 
 switch ($action) {
 
     case 'jira:issue_created':
     {
-        $result=$dingtalk_notify->issueCreate(
-            $jira_message->getIssueTitle(),
-            $jira_message->getIssueSummary(),
-            $jira_message->getIssueUrl(),
-            $jira_message->getIssueAssigneePhone(),
-            $jira_message->getIssuePriority()
-        );
-        print_r($result);exit;
+        $result=$dingtalk_notify->issueCreate($jira_message);
+        
         break;   
     }
 
     case 'jira:issue_updated':
     {
-        $dingtalk_notify->issueUpdated($data);
+        $result=$dingtalk_notify->issueUpdated($jira_message);
 
         break;
     }
 }
 
+if($is_transition){
+
+    if($jira_message->IsIssueResolved()){
+
+        $result=$dingtalk_notify->issueResolved($jira_message);
+    }else if($jira_message->IsIssueReopened()){
+
+        $result=$dingtalk_notify->issueReopened($jira_message);
+    }
+}
