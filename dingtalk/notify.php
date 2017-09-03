@@ -8,6 +8,10 @@ class DingtalkNotify {
      */
     private $notify_url="https://oapi.dingtalk.com/robot/send";
 
+    /**
+     * token
+     * @var string
+     */
     protected $access_token;
 
     public function __construct($access_token){
@@ -41,6 +45,11 @@ class DingtalkNotify {
         return $resp;
     }
 
+    /**
+     * issue update
+     * @param  JiraMessage $jira_message 
+     * @return 
+     */
     public function issueUpdated(JiraMessage $jira_message){
 
         $title=$jira_message->getIssueTitle();
@@ -51,7 +60,7 @@ class DingtalkNotify {
 
         $text="> {$summary}\n> ![]({$priority['icon']}){$priority['name']}\n###查看[Jira]({$url})";
 
-        $data=$this->text('[UPDATE]'.$title,$text,[$assignee]);
+        $data=$this->markdown('[UPDATE]'.$title,$text,[$assignee]);
 
         $resp=$this->http($data);
     }
@@ -73,7 +82,7 @@ class DingtalkNotify {
 
         $text="> {$summary}\n> ![]({$priority['icon']}){$priority['name']}\n###查看[Jira]({$url})";
 
-        $data=$this->text('[RESOLVED]'.$title,$text,$groups['php']['test']);
+        $data=$this->markdown('[RESOLVED]'.$title,$text,$groups['php']['test']);
 
         $resp=$this->http($data);
     }
@@ -93,7 +102,7 @@ class DingtalkNotify {
 
         $text="> {$summary}\n> ![]({$priority['icon']}){$priority['name']}\n###查看[Jira]({$url})";
 
-        $data=$this->text('[REOPEN]'.$title,$text,[$assignee]);
+        $data=$this->markdown('[REOPEN]'.$title,$text,[$assignee]);
 
         $resp=$this->http($data);
     }

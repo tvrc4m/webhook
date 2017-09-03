@@ -16,6 +16,8 @@ class JiraMessage {
 
     private $priority;
 
+    private $issue_type;
+
     private $issue;
 
     private $is_transition=false;
@@ -25,6 +27,7 @@ class JiraMessage {
     private $is_reopened=false;
 
     public function __construct($project,$post){
+        // 项目名
         $this->project=$project;
         // 标题
         $this->title=$post['issue']['fields']['summary'];
@@ -36,7 +39,9 @@ class JiraMessage {
         $this->priority=$post['issue']['fields']['priority'];
         // issue号
         $this->issue=$post['issue']['key'];
-
+        // issue 类型
+        $this->issue_type=$post['issue']['fields']['issuetype']['name'];
+        // 进度通知
         $this->is_transition=isset($post['transition']);
 
         if($this->is_transition){
@@ -72,7 +77,7 @@ class JiraMessage {
      * 获取项目列表
      * @return array
      */
-    private function getProject(){
+    private function getProjects(){
 
         return 
         [
@@ -149,6 +154,11 @@ class JiraMessage {
     public function getIssueUrl(){
 
         return sprintf("%s/%s",$this->host,$this->issue);
+    }
+
+    public function getIssueType(){
+
+        return $this->issue_type;
     }
 
     /**

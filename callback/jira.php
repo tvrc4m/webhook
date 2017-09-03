@@ -20,7 +20,7 @@ $action=$post['webhookEvent'];
 include_once(ROOT.'/jira/message.php');
 include_once(ROOT.'/dingtalk/notify.php');
 
-$jira_message=new JiraMessage($post);
+$jira_message=new JiraMessage($project,$post);
 $dingtalk_notify=new DingtalkNotify($access_token);
 
 switch ($action) {
