@@ -34,7 +34,7 @@ class DingtalkNotify {
 
         $text="> {$summary}\n> {$priority['name']}\n### 查看[Jira]({$url})";
 
-        $data=$this->text('[NEW]'.$title,$text,[$assignee]);
+        $data=$this->markdown('[NEW]'.$title,$text,[$assignee]);
         // print_r($data);
         $resp=$this->http($data);
 
@@ -51,7 +51,7 @@ class DingtalkNotify {
 
         $text="> {$summary}\n> ![]({$priority['icon']}){$priority['name']}\n###查看[Jira]({$url})";
 
-        $data=$this->text($title,$text,[$assignee]);
+        $data=$this->text('[UPDATE]'.$title,$text,[$assignee]);
 
         $resp=$this->http($data);
     }
@@ -68,10 +68,12 @@ class DingtalkNotify {
         $priority=$jira_message->getIssuePriority();
         $assignee=$jira_message->getIssueAssigneePhone();
         $url=$jira_message->getIssueUrl();
+        $project=$jira_message->getProject();
+        $groups=$jira_message->getGroups($project);
 
         $text="> {$summary}\n> ![]({$priority['icon']}){$priority['name']}\n###查看[Jira]({$url})";
 
-        $data=$this->text('[RESOLVED]'.$title,$text,[$assignee]);
+        $data=$this->text('[RESOLVED]'.$title,$text,$groups['php']['test']);
 
         $resp=$this->http($data);
     }

@@ -8,13 +8,14 @@ $str='{"webhookEvent":"jira:issue_created","user":{"self":"http://101.201.234.44
 
 if(empty($str)) return false;
 
+$project=$_GET['project'];
 $access_token=$_GET['access_token'];
+$project='php';
 $access_token='865acac088fc8dacf5ca42fefbb56380b38d16d96f5bbcf50fbf6961a31f2016';
 
 $post=json_decode($str,true);
 
 $action=$post['webhookEvent'];
-$is_transition=isset($post['transition']);
 
 include_once(ROOT.'/jira/message.php');
 include_once(ROOT.'/dingtalk/notify.php');
@@ -39,7 +40,7 @@ switch ($action) {
     }
 }
 
-if($is_transition){
+if($jira_message->isTransition()){
 
     if($jira_message->IsIssueResolved()){
 

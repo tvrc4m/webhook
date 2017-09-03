@@ -4,6 +4,8 @@ class JiraMessage {
 
     private $host='http://101.201.234.44:8080';
 
+    private $project;
+
     private $url;
 
     private $title;
@@ -22,7 +24,8 @@ class JiraMessage {
 
     private $is_reopened=false;
 
-    public function __construct($post){
+    public function __construct($project,$post){
+        $this->project=$project;
         // 标题
         $this->title=$post['issue']['fields']['summary'];
         // 摘要
@@ -37,9 +40,9 @@ class JiraMessage {
         $this->is_transition=isset($post['transition']);
 
         if($this->is_transition){
-
+            // issue的状态是否已完成
             $this->is_resolved=$post['transition']['transitionName']=='开发完成';
-
+            // issue的状态是否已reopen
             $this->is_reopened=$post['transition']['transitionName']=='重新开发';
         }
     }
@@ -52,8 +55,52 @@ class JiraMessage {
 
         return
         [
-            'admin'=>'15763951212'
+            'admin'=>'15763951212',
+            'dawn'=>'18610402391',
+            'lishuo'=>'13911516907',
+            'nexiy'=>'18811223158',
+            'wuchao'=>'13522216112',
+            '王娟娟'=>'13161824260',
+            '肖阿勇'=>'18612309283',
+            '韩萌萌'=>'18330236860',
+            'lijialin'=>'15910442846',
+            'haohuili'=>'18501219135'
         ];
+    }
+
+    /**
+     * 获取项目列表
+     * @return array
+     */
+    private function getProject(){
+
+        return 
+        [
+            'php',
+            'android',
+            'ios',
+            'go'
+        ];
+    }
+
+    /**
+     * 获取组成员
+     * @return array
+     */
+    private function getGroups(){
+
+        return 
+        [
+            'php'=>[
+                'test'=>['18330236860','15910442846','18501219135'],
+                'dev'=>['15763951212','18610402391','18811223158','13522216112','13161824260','18612309283']
+            ]
+        ];
+    }
+
+    public function getProject(){
+
+        return $this->project;
     }
 
     public function getIssueTitle(){
@@ -111,6 +158,11 @@ class JiraMessage {
     public function getJiraHost(){
 
         return $this->host;
+    }
+
+    public function isTransition(){
+
+        return $this->is_transition;
     }
 
     /**
