@@ -28,6 +28,10 @@ class JiraMessage {
 
     private $is_reopened=false;
 
+    private $is_comment=false;
+
+    private $comment;
+
     public function __construct($project,$post){
         // 项目名
         $this->project=$project;
@@ -54,6 +58,14 @@ class JiraMessage {
             // issue的状态是否已reopen
             $this->is_reopened=$post['transition']['transitionName']=='重新开发';
         }
+        // 更新是否是新增备注
+        $this->is_comment=$post['comment'];
+
+        if($this->is_comment){
+
+            $this->comment=['content'=>$post['comment']['body'],'author'=>$post['comment']['author']['displayName']];
+        }
+        
     }
 
     /**
@@ -157,7 +169,7 @@ class JiraMessage {
      */
     public function getIssueUrl(){
 
-        return sprintf("%s/%s",$this->host,$this->issue);
+        return sprintf("%s/browse/%s",$this->host,$this->issue);
     }
 
     public function getIssueType(){
@@ -176,6 +188,15 @@ class JiraMessage {
     }
 
     /**
+     * 获取issue新增备注
+     * @return array
+     */
+    public function getIssueNewComment(){
+
+        return $this->comment;
+    }
+
+    /**
      * get jira host address
      * @return string
      */
@@ -187,6 +208,11 @@ class JiraMessage {
     public function isTransition(){
 
         return $this->is_transition;
+    }
+
+    public function isComment(){
+
+        return $this->is_comment;
     }
 
     /**

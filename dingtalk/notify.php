@@ -61,9 +61,9 @@ class DingtalkNotify {
         $assignee=$jira_message->getIssueAssigneePhone();
         $url=$jira_message->getIssueUrl();
 
-        $text="> {$summary}\n> ![]({$priority['icon']}){$priority['name']}\n###查看[Jira]({$url})";
+        $text="> {$title}\n> ![]({$priority['icon']}){$priority['name']}\n###查看[Jira]({$url})";
 
-        $data=$this->markdown('[UPDATE]'.$title,$text,[$assignee]);
+        $data=$this->markdown($title,$text,[$assignee]);
 
         $resp=$this->http($data);
     }
