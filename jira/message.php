@@ -14,6 +14,8 @@ class JiraMessage {
 
     private $assignee;
 
+    private $creator;
+
     private $priority;
 
     private $issue_type;
@@ -35,6 +37,8 @@ class JiraMessage {
         $this->summary=$post['issue']['fields']['description'];
         // assign
         $this->assignee=$post['issue']['fields']['assignee']['displayName'];
+        // 创建者
+        $this->creator=$post['issue']['fields']['creator']['displayName'];
         // 优先级
         $this->priority=$post['issue']['fields']['priority'];
         // issue号
@@ -159,6 +163,16 @@ class JiraMessage {
     public function getIssueType(){
 
         return $this->issue_type;
+    }
+
+    public function getIssueNumber(){
+
+        return $this->issue;
+    }
+
+    public function getIssueCreator(){
+
+        return $this->creator;
     }
 
     /**

@@ -30,15 +30,18 @@ class DingtalkNotify {
      */
     public function issueCreate(JiraMessage $jira_message){
 
+        $issue=$jira_message->getIssueNumber();
         $title=$jira_message->getIssueTitle();
         $summary=$jira_message->getIssueSummary();
         $priority=$jira_message->getIssuePriority();
         $assignee=$jira_message->getIssueAssigneePhone();
+        $creator=$jira_message->getIssueCreator();
         $url=$jira_message->getIssueUrl();
 
-        $text="> {$summary}\n> {$priority['name']}\n### 查看[Jira]({$url})";
+        $title=$creator.'新建任务: '.$issue;
+        $text="> [{$title}]($url)\n> 优先级: ![]({$priority['icon']}){$priority['name']}\n";
 
-        $data=$this->markdown('[NEW]'.$title,$text,[$assignee]);
+        $data=$this->markdown($title,$text,[$assignee]);
         // print_r($data);
         $resp=$this->http($data);
 
@@ -72,17 +75,18 @@ class DingtalkNotify {
      */
     public function issueResolved(JiraMessage $jira_message){
 
+        $issue=$jira_message->getIssueNumber();
         $title=$jira_message->getIssueTitle();
-        $summary=$jira_message->getIssueSummary();
         $priority=$jira_message->getIssuePriority();
         $assignee=$jira_message->getIssueAssigneePhone();
         $url=$jira_message->getIssueUrl();
         $project=$jira_message->getProject();
         $groups=$jira_message->getGroups($project);
 
-        $text="> {$summary}\n> ![]({$priority['icon']}){$priority['name']}\n###查看[Jira]({$url})";
+        $title=$assignee.'解决了任务: '.$issue;
+        $text="> [{$title}]({$url})\n> 优先级: ![]({$priority['icon']}){$priority['name']}";
 
-        $data=$this->markdown('[RESOLVED]'.$title,$text,$groups['php']['test']);
+        $data=$this->markdown($title,$text,$groups['php']['test']);
 
         $resp=$this->http($data);
     }
@@ -94,15 +98,16 @@ class DingtalkNotify {
      */
     public function issueReopened(JiraMessage $jira_message){
 
+        $issue=$jira_message->getIssueNumber();
         $title=$jira_message->getIssueTitle();
-        $summary=$jira_message->getIssueSummary();
         $priority=$jira_message->getIssuePriority();
         $assignee=$jira_message->getIssueAssigneePhone();
         $url=$jira_message->getIssueUrl();
 
-        $text="> {$summary}\n> ![]({$priority['icon']}){$priority['name']}\n###查看[Jira]({$url})";
+        $title='Reopen任务: '.$issue;
+        $text="> [{$title}]({$url})\n> 优先级: ![]({$priority['icon']}){$priority['name']}";
 
-        $data=$this->markdown('[REOPEN]'.$title,$text,[$assignee]);
+        $data=$this->markdown($title,$text,[$assignee]);
 
         $resp=$this->http($data);
     }
