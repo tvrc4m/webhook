@@ -106,7 +106,7 @@ class DingtalkNotify {
 
         $title='Reopen任务: '.$issue;
         $text="> [{$title}]({$url})\n> 优先级: ![]({$priority['icon']}){$priority['name']}";
-
+        
         $data=$this->markdown($title,$text,[$assignee]);
 
         $resp=$this->http($data);
@@ -173,7 +173,7 @@ class DingtalkNotify {
         }
         print_r($result);
         curl_close($ch);
-
+        @file_put_contents('/tmp/jira.log', var_export($result,true).PHP_EOL,FILE_APPEND);
         return $result;
     }
 }

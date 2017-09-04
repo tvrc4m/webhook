@@ -6,7 +6,7 @@ $str = file_get_contents('php://input');
 
 if(empty($str)) return false;
 
-@file_put_contents('/tmp/jira.log', $str,FILE_APPEND);
+@file_put_contents('/tmp/jira.log', $str.PHP_EOL,FILE_APPEND);
 
 $project=$_GET['project'];
 $access_token=$_GET['access_token'];

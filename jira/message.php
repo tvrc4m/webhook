@@ -77,6 +77,7 @@ class JiraMessage {
         return
         [
             'admin'=>'15763951212',
+            '魏山'=>'15763951212',
             'dawn'=>'18610402391',
             'lishuo'=>'13911516907',
             'nexiy'=>'18811223158',
@@ -230,6 +231,6 @@ class JiraMessage {
      */
     public function IsIssueReopened(){
 
-        return $this->is_reopen;
+        return $this->is_reopened;
     }
 }
