@@ -38,10 +38,9 @@ class DingtalkNotify {
         $creator=$jira_message->getIssueCreator();
         $url=$jira_message->getIssueUrl();
 
-        $title=$creator.'新建任务: '.$issue;
-        $text="> [{$title}]($url)\n> 优先级: ![]({$priority['icon']}){$priority['name']}\n";
+        $text="\n> [{$title}]($url)\n> 优先级: ![]({$priority['icon']}){$priority['name']}\n";
 
-        $data=$this->markdown($title,$text,[$assignee]);
+        $data=$this->markdown($creator.'新建任务: '.$issue,$text,[$assignee]);
         // print_r($data);
         $resp=$this->http($data);
 
@@ -83,10 +82,9 @@ class DingtalkNotify {
         $project=$jira_message->getProject();
         $groups=$jira_message->getGroups($project);
 
-        $title=$assignee.'解决了任务: '.$issue;
-        $text="> [{$title}]({$url})\n> 优先级: ![]({$priority['icon']}){$priority['name']}";
+        $text="\n> [{$title}]({$url})\n> 优先级: ![]({$priority['icon']}){$priority['name']}";
 
-        $data=$this->markdown($title,$text,$groups['php']['test']);
+        $data=$this->markdown($assignee.'解决了任务: '.$issue,$text,$groups['php']['test']);
 
         $resp=$this->http($data);
     }
@@ -104,10 +102,9 @@ class DingtalkNotify {
         $assignee=$jira_message->getIssueAssigneePhone();
         $url=$jira_message->getIssueUrl();
 
-        $title='Reopen任务: '.$issue;
-        $text="> [{$title}]({$url})\n> 优先级: ![]({$priority['icon']}){$priority['name']}";
+        $text="\n> [{$title}]({$url})\n> 优先级: ![]({$priority['icon']}){$priority['name']}";
         
-        $data=$this->markdown($title,$text,[$assignee]);
+        $data=$this->markdown('Reopen任务: '.$issue,$text,[$assignee]);
 
         $resp=$this->http($data);
     }
