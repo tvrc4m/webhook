@@ -31,6 +31,11 @@ class JiraMessage {
     private $is_comment=false;
 
     private $comment;
+    /**
+     * 操作人
+     * @var string
+     */
+    private $operator;
 
     public function __construct($project,$post){
         // 项目名
@@ -65,6 +70,8 @@ class JiraMessage {
 
             $this->comment=['content'=>$post['comment']['body'],'author'=>$post['comment']['author']['displayName']];
         }
+
+        $this->operator=$post['user']['displayName'];
         
     }
 
@@ -94,7 +101,7 @@ class JiraMessage {
      * 获取项目列表
      * @return array
      */
-    private function getProjects(){
+    public function getProjects(){
 
         return 
         [
@@ -109,7 +116,7 @@ class JiraMessage {
      * 获取组成员
      * @return array
      */
-    private function getGroups(){
+    public function getGroups(){
 
         return 
         [
@@ -195,6 +202,15 @@ class JiraMessage {
     public function getIssueNewComment(){
 
         return $this->comment;
+    }
+
+    /**
+     * 获取更改issue实际操作人
+     * @return array
+     */
+    public function getIssueOperator(){
+
+        return $this->operator;
     }
 
     /**
