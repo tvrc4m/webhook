@@ -44,8 +44,10 @@ class JiraMessage {
         $this->title=$post['issue']['fields']['summary'];
         // 摘要
         $this->summary=$post['issue']['fields']['description'];
-        // assign
+        // assign display name
         $this->assignee=$post['issue']['fields']['assignee']['displayName'];
+        // assignee name
+        $this->assignee_name=$post['issue']['fields']['assignee']['name'];
         // 创建者
         $this->creator=$post['issue']['fields']['creator']['displayName'];
         // 优先级
@@ -160,7 +162,7 @@ class JiraMessage {
 
         $users=$this->getUsers();
 
-        return $users[strtolower($this->assignee)];
+        return $users[strtolower($this->assignee_name)];
     }
 
     /**
