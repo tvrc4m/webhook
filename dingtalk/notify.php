@@ -82,11 +82,20 @@ class DingtalkNotify {
         $project=$jira_message->getProject();
         $groups=$jira_message->getGroups($project);
 
-        $tester=implode(' @', $groups['php']['test']);
+        $notify_users=[];
+        $list_users=[$assignee];
 
-        $text="> @{$assignee} 解决了任务: {$issue}\n\n> [{$title}]({$url})\n\n> 优先级: ![]({$priority['icon']}){$priority['name']}\n\n> {$tester}";
+        foreach ($groups['php']['test'] as $user){
 
-        $data=$this->markdown($assignee.'解决了任务: '.$issue,$text,$groups['php']['test']);
+            $notify_users[]='@'.$user;
+            $list_users[]=$user;  
+        } 
+
+        $notify_users_list=implode(' ', $notify_users)
+
+        $text="> @{$assignee} 解决了任务: {$issue}\n\n> [{$title}]({$url})\n\n> 优先级: ![]({$priority['icon']}){$priority['name']}\n\n> {$notify_users_list}";
+
+        $data=$this->markdown($assignee.'解决了任务: '.$issue,$text,$list_users);
 
         $resp=$this->http($data);
     }
