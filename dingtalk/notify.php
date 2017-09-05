@@ -91,7 +91,7 @@ class DingtalkNotify {
             $list_users[]=$user;  
         } 
 
-        $notify_users_list=implode(' ', $notify_users)
+        $notify_users_list=implode(' ', $notify_users);
 
         $text="> @{$assignee} 解决了任务: {$issue}\n\n> [{$title}]({$url})\n\n> 优先级: ![]({$priority['icon']}){$priority['name']}\n\n> {$notify_users_list}";
 
