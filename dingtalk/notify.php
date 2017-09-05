@@ -38,7 +38,7 @@ class DingtalkNotify {
         $creator=$jira_message->getIssueCreator();
         $url=$jira_message->getIssueUrl();
 
-        $text="\n> [{$title}]($url)\n> 优先级: ![]({$priority['icon']}){$priority['name']}\n";
+        $text="> [{$title}]($url)\n\n > 优先级: ![]({$priority['icon']}){$priority['name']}\n\n> 开发: @{$assignee}";
 
         $data=$this->markdown($creator.'新建任务: '.$issue,$text,[$assignee]);
         // print_r($data);
@@ -82,7 +82,9 @@ class DingtalkNotify {
         $project=$jira_message->getProject();
         $groups=$jira_message->getGroups($project);
 
-        $text="\n> [{$title}]({$url})\n> 优先级: ![]({$priority['icon']}){$priority['name']}";
+        $tester=implode(' @', $groups['php']['test']);
+
+        $text="\n> [{$title}]({$url})\n> 优先级: ![]({$priority['icon']}){$priority['name']}\n> {$tester}";
 
         $data=$this->markdown($assignee.'解决了任务: '.$issue,$text,$groups['php']['test']);
 
@@ -102,7 +104,7 @@ class DingtalkNotify {
         $assignee=$jira_message->getIssueAssigneePhone();
         $url=$jira_message->getIssueUrl();
 
-        $text="\n> [{$title}]({$url})\n> 优先级: ![]({$priority['icon']}){$priority['name']}";
+        $text="\n> [{$title}]({$url})\n> 优先级: ![]({$priority['icon']}){$priority['name']}\n> 开发: @{$assignee}";
         
         $data=$this->markdown('Reopen任务: '.$issue,$text,[$assignee]);
 
