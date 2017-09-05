@@ -168,7 +168,7 @@ class JiraMessage {
      */
     public function getIssuePriority(){
 
-        return ['icon'=>$this->priority,'name'=>$this->priority['name']];
+        return ['icon'=>$this->priority['iconUrl'],'name'=>$this->priority['name']];
     }
 
     /**
