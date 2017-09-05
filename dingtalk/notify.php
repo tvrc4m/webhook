@@ -2,6 +2,8 @@
 
 class DingtalkNotify {
 
+    private $webhook_url="http://webhook.vrcdkj.cn";
+
     /**
      * 钉钉通知地址
      * @var string
@@ -40,7 +42,7 @@ class DingtalkNotify {
 
         $text="> {$creator}新建任务: {$issue}\n\n> [{$title}]($url)\n\n > 优先级: ![]({$priority['icon']}){$priority['name']}\n\n> 开发: @{$assignee}";
 
-        $data=$this->markdown($creator.'新建任务: '.$issue,$text,[$assignee]);
+        $data=$this->markdown($creator.' 新建任务: '.$issue,$text,[$assignee]);
         // print_r($data);
         $resp=$this->http($data);
 
@@ -90,7 +92,7 @@ class DingtalkNotify {
 
         $text="> {$assignee} 解决了任务: {$issue}\n\n> [{$title}]({$url})\n\n> 优先级: ![]({$priority['icon']}){$priority['name']}\n\n> {$notify_users_list}";
 
-        $data=$this->markdown($assignee.'解决了任务: '.$issue,$text,$groups['php']['test']);
+        $data=$this->markdown($assignee.' 解决了任务: '.$issue,$text,$groups['php']['test']);
 
         $resp=$this->http($data);
     }
@@ -114,6 +116,34 @@ class DingtalkNotify {
         $data=$this->markdown('Reopen任务: '.$issue,$text,[$assignee]);
 
         $resp=$this->http($data);
+    }
+
+    /**
+     * git push code
+     * @param  GitlabMessage $gitlab_message 
+     * @return 
+     */
+    public function gitPush(GitlabMessage $gitlab_message){
+
+        $project=$gitlab_message->getProject();
+        $username=$gitlab_message->getUserName();
+        $commits=$gitlab_message->getCommits();
+        $filter=$gitlab_message->getFilterBranch();
+        $branch=$gitlab_message->getBranchName();
+
+        if(in_array($branch, $filter)) return false;
+
+        $text="> {$username} 往 {$branch} 上传了代码\n\n";
+
+        foreach ($commits as $commit) {
+            
+            $text.="> {$commit['username']}: [{$commit['message']}]({$commit['url']})  {$commit['create_date']}";
+        }
+
+        $data=$this->card("{$username} 往 {$branch} 上传了代码",$text,$branch);
+
+        return $this->http($data);
+
     }
 
     private function notify($msgtype){
@@ -145,13 +175,37 @@ class DingtalkNotify {
      * @param  array $assignee 
      * @return 
      */
-    private function markdown($title,$text,$assignee){
+    private function markdown($title,$text,$assignee=[]){
 
         return 
         [
             'msgtype'=>'markdown',
             'markdown'=>['title'=>$title,'text'=>$text],
             'at'=>['atMobiles'=>$assignee,'isAtAll'=>false]
+        ];
+    }
+
+    /**
+     * 卡片的形式
+     * @param  string $title  
+     * @param  string $text   
+     * @param  string $branch 
+     * @return []
+     */
+    private function card($title,$text,$branch){
+
+        return 
+        [
+            'msgtype'=>'actionCard',
+            'title'=>$title,
+            'text'=>$text,
+            'btns'=>[
+                ['title'=>'TEST','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=test"],
+                ['title'=>'DEV','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=dev"],
+                ['title'=>'STAGING','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=staging"],
+            ],
+            'btnOrientation'=>'1',
+            'hideAvatar'=>false
         ];
     }
 
