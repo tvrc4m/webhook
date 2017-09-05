@@ -77,7 +77,7 @@ class DingtalkNotify {
         $issue=$jira_message->getIssueNumber();
         $title=$jira_message->getIssueTitle();
         $priority=$jira_message->getIssuePriority();
-        $assignee=$jira_message->getIssueAssigneePhone();
+        $assignee=$jira_message->getIssueAssignee();
         $url=$jira_message->getIssueUrl();
         $project=$jira_message->getProject();
         $groups=$jira_message->getGroups($project);
