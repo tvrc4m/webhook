@@ -135,9 +135,10 @@ class DingtalkNotify {
 
         $text="> {$username} 往 {$branch} 上传了代码\n\n";
 
-        foreach ($commits as $commit) {
+        foreach ($commits as $k=>$commit) {
             
-            $text.="> {$commit['username']}: [{$commit['message']}]({$commit['url']})\n\n";
+            if($k<3)
+                $text.="> {$commit['username']}: [{$commit['message']}]({$commit['url']})\n\n";
         }
 
         $btns=[
