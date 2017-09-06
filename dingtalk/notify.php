@@ -137,7 +137,7 @@ class DingtalkNotify {
 
         foreach ($commits as $commit) {
             
-            $text.="> {$commit['username']}: [{$commit['message']}]({$commit['url']})";
+            $text.="> {$commit['username']}: [{$commit['message']}]({$commit['url']})\n\n";
         }
 
         $btns=[
@@ -219,8 +219,8 @@ class DingtalkNotify {
                 'title'=>$title,
                 'text'=>$text,
                 'btns'=>$btns,
-                'btnOrientation'=>false,
-                'hideAvatar'=>false
+                'btnOrientation'=>'0',
+                'hideAvatar'=>'0'
             ]
         ];
     }
