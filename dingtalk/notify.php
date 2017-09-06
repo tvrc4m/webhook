@@ -137,10 +137,16 @@ class DingtalkNotify {
 
         foreach ($commits as $commit) {
             
-            $text.="> {$commit['username']}: [{$commit['message']}]({$commit['url']})  {$commit['create_date']}";
+            $text.="> {$commit['username']}: [{$commit['message']}]({$commit['url']})";
         }
 
-        $data=$this->card("{$username} 往 {$branch} 上传了代码",$text,$branch,$access_token);
+        $btns=[
+                ['title'=>'TEST','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=test&access_token={$this->access_token}"],
+                ['title'=>'DEV','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=dev&access_token={$this->access_token}"],
+                ['title'=>'STAGING','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=staging&access_token={$this->access_token}"],
+            ];
+
+        $data=$this->card("{$username} 往 {$branch} 上传了代码",$text,$branch,$btns);
 
         return $this->http($data);
 
@@ -204,7 +210,7 @@ class DingtalkNotify {
      * @param  string $branch 
      * @return []
      */
-    private function card($title,$text,$branch){
+    private function card($title,$text,$btns,$branch,$btns){
 
         return 
         [
@@ -212,12 +218,8 @@ class DingtalkNotify {
             'actionCard'=>[
                 'title'=>$title,
                 'text'=>$text,
-                'btns'=>[
-                    ['title'=>'TEST','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=test&access_token={$this->access_token}"],
-                    ['title'=>'DEV','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=dev&access_token={$this->access_token}"],
-                    ['title'=>'STAGING','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=staging&access_token={$this->access_token}"],
-                ],
-                'btnOrientation'=>'0',
+                'btns'=>$btns,
+                'btnOrientation'=>false,
                 'hideAvatar'=>false
             ]
         ];
