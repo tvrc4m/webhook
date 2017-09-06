@@ -9,7 +9,8 @@ if(empty($str)) return false;
 @file_put_contents('/tmp/gitlab.log', $str.PHP_EOL,FILE_APPEND);
 
 $project=$_GET['project'];
-$access_token=$_GET['access_token'];
+
+$access_token = $_SERVER['HTTP_X_GITLAB_TOKEN'];
 
 $post=json_decode($str,true);
 
