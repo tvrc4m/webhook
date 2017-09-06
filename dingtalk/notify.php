@@ -137,7 +137,7 @@ class DingtalkNotify {
 
         foreach ($commits as $k=>$commit) {
             
-            if($k<3 && strpos($commit['message'], 'Merge branch')!==false)
+            if($k<3 && strpos($commit['message'], 'Merge branch')===false)
                 $text.="> {$commit['username']}: [{$commit['message']}]({$commit['url']})\n\n";
         }
 
