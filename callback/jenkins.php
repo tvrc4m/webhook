@@ -8,6 +8,10 @@ $branch=$get['branch'];
 
 if(empty($access_token)) return false;
 
+define('ROOT', __DIR__);
+
+include_once(ROOT.'/dingtalk/notify.php');
+
 $branch=str_replace('origin/','', $branch);
 
 $dingtalk_notify=new DingtalkNotify($access_token);
