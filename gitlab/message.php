@@ -36,7 +36,7 @@ class GitlabMessage {
                     'username'=>$commit['author']['name'],
                     'message'=>$commit['message'],
                     'url'=>$commit['url'],
-                    'create_date'=>$commit['timestamp']
+                    'create_date'=>date("Y-m-d H:i",strtotime($commit['timestamp']))
                 ];
             }
         }
