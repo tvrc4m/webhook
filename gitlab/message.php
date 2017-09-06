@@ -26,7 +26,7 @@ class GitlabMessage {
 
         $this->branch_name=str_replace('refs/heads/','', $post['ref']);
 
-        $this->user_name=$post['user_name'];
+        $this->user_name=$this->getDisplayName($post['user_name']);
 
         $this->commits=[];
 
@@ -35,7 +35,7 @@ class GitlabMessage {
             foreach ($post['commits'] as $commit) {
                 
                 $this->commits[]=[
-                    'username'=>trim($commit['author']['name']),
+                    'username'=>$this->getDisplayName(trim($commit['author']['name'])),
                     'message'=>$commit['message'],
                     'url'=>$commit['url'],
                     'create_date'=>date("Y-m-d H:i",strtotime($commit['timestamp']))
@@ -54,6 +54,13 @@ class GitlabMessage {
     public function getFilterBranch(){
 
         return ['master'];
+    }
+
+    public function getDisplayName($name){
+
+        $users=['wei shan'=>'魏山','tvrc4m'=>'魏山','lishou'=>'李硕','wjj'=>'王娟娟','dawn'=>'郑生齐','xiaoayong'=>'肖阿勇','wuchao'=>'武超'];
+
+        return isset($users[$name])?$users[$name]:$name;
     }
 
     public function getProject(){
