@@ -4,9 +4,6 @@ $env=$_GET['env'];
 $branch=$_GET['branch'];
 $access_token=$_GET['access_token'];
 
-$env='test';
-$branch='master';
-
 if(empty($env) || empty($branch)) exit('缺少参数');
 
 define('ROOT', __DIR__);
