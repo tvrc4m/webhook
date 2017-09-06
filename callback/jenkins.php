@@ -1,7 +1,15 @@
 <?php
 
+$get=$_GET;
 
-$post=$_POST;
-$request=$_REQUEST;
+$access_token=$get['access_token'];
+$env=$get['env'];
+$branch=$get['branch'];
 
-@file_put_contents('/tmp/post.log', var_export($request,true),FILE_APPEND);
+if(empty($access_token)) return false;
+
+$branch=str_replace('origin/','', $branch);
+
+$dingtalk_notify=new DingtalkNotify($access_token);
+
+$dingtalk_notify->deploySuccess($env,$branch);

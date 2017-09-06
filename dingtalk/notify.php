@@ -165,6 +165,21 @@ class DingtalkNotify {
         return $this->http($data);
     }
 
+    /**
+     * deploy成功
+     * @param  string $env    
+     * @param  string $branch 
+     * @return 
+     */
+    public function deploySuccess($env,$branch){
+
+        $text="{$env}环境上已部署{$branch}分支";
+
+        $data=$this->text("部署分支",$text);
+
+        return $this->http($data);
+    }
+
     private function notify($msgtype){
 
         switch ($msgtype) {
@@ -220,7 +235,7 @@ class DingtalkNotify {
                 'title'=>$title,
                 'text'=>$text,
                 'btns'=>$btns,
-                'btnOrientation'=>'0',
+                'btnOrientation'=>'1',
                 'hideAvatar'=>'0'
             ]
         ];
