@@ -131,7 +131,7 @@ class DingtalkNotify {
         $filter=$gitlab_message->getFilterBranch();
         $branch=$gitlab_message->getBranchName();
 
-        if(in_array($branch, $filter)) return false;
+        // if(in_array($branch, $filter)) return false;
 
         $text="> {$username} 往 {$branch} 上传了代码\n\n";
 
