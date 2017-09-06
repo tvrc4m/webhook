@@ -140,10 +140,22 @@ class DingtalkNotify {
             $text.="> {$commit['username']}: [{$commit['message']}]({$commit['url']})  {$commit['create_date']}";
         }
 
-        $data=$this->card("{$username} 往 {$branch} 上传了代码",$text,$branch);
+        $data=$this->card("{$username} 往 {$branch} 上传了代码",$text,$branch,$access_token);
 
         return $this->http($data);
 
+    }
+    /**
+     * 开始deploy的提示
+     * @return 
+     */
+    public function deployStart($env,$branch){
+
+        $text="正在{$env}环境上部署{$branch}分支,可能有30秒的延迟";
+
+        $data=$this->text("部署分支",$text);
+
+        return $this->http($data);
     }
 
     private function notify($msgtype){
@@ -158,7 +170,7 @@ class DingtalkNotify {
         }
     }
 
-    private function text($title,$text,$assignee){
+    private function text($title,$text,$assignee=[]){
 
         return 
         [
@@ -200,9 +212,9 @@ class DingtalkNotify {
             'title'=>$title,
             'text'=>$text,
             'btns'=>[
-                ['title'=>'TEST','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=test"],
-                ['title'=>'DEV','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=dev"],
-                ['title'=>'STAGING','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=staging"],
+                ['title'=>'TEST','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=test&access_token={$this->access_token}"],
+                ['title'=>'DEV','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=dev&access_token={$this->access_token}"],
+                ['title'=>'STAGING','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=staging&access_token={$this->access_token}"],
             ],
             'btnOrientation'=>'1',
             'hideAvatar'=>false
