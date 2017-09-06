@@ -35,7 +35,7 @@ class GitlabMessage {
             foreach ($post['commits'] as $commit) {
                 
                 $this->commits[]=[
-                    'username'=>$commit['author']['name'],
+                    'username'=>trim($commit['author']['name']),
                     'message'=>$commit['message'],
                     'url'=>$commit['url'],
                     'create_date'=>date("Y-m-d H:i",strtotime($commit['timestamp']))
@@ -53,7 +53,7 @@ class GitlabMessage {
      */
     public function getFilterBranch(){
 
-        return ['master','develop','app'];
+        return ['master'];
     }
 
     public function getProject(){

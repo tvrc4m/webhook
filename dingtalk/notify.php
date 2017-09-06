@@ -131,9 +131,9 @@ class DingtalkNotify {
         $filter=$gitlab_message->getFilterBranch();
         $branch=$gitlab_message->getBranchName();
 
-        // if(in_array($branch, $filter)) return false;
+        if(in_array($branch, $filter)) return false;
 
-        $text="**{$username}** 往 **{$branch}** 上传了代码\n\n";
+        $text="{$username} 往 <font color='red'>{$branch}</font> 上传了代码\n\n";
 
         foreach ($commits as $k=>$commit) {
             
@@ -165,7 +165,7 @@ class DingtalkNotify {
             $btns=[$test,$dev,$staging];
         }
 
-        $data=$this->card("{$username} 往 {$branch} 上传了代码",$text,$btns);
+        $data=$this->card("PUSH CODE",$text,$btns);
 
         return $this->http($data);
 
