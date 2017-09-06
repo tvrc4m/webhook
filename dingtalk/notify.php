@@ -146,7 +146,7 @@ class DingtalkNotify {
                 ['title'=>'STAGING','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=staging&access_token={$this->access_token}"],
             ];
 
-        $data=$this->card("{$username} 往 {$branch} 上传了代码",$text,$branch,$btns);
+        $data=$this->card("{$username} 往 {$branch} 上传了代码",$text,$btns);
 
         return $this->http($data);
 
@@ -210,7 +210,7 @@ class DingtalkNotify {
      * @param  string $branch 
      * @return []
      */
-    private function card($title,$text,$btns,$branch,$btns){
+    private function card($title,$text,$btns){
 
         return 
         [
