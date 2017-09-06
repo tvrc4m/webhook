@@ -141,11 +141,29 @@ class DingtalkNotify {
                 $text.="> {$commit['username']}: [{$commit['message']}]({$commit['url']})\n\n";
         }
 
-        $btns=[
-                ['title'=>'TEST','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=test&access_token={$this->access_token}"],
-                ['title'=>'DEV','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=dev&access_token={$this->access_token}"],
-                ['title'=>'STAGING','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=staging&access_token={$this->access_token}"],
-            ];
+        $test=[
+            'title'=>'部署TEST环境',
+            'actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=test&access_token={$this->access_token}"
+        ];
+        $dev=[
+            'title'=>'部署DEV环境',
+            'actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=dev&access_token={$this->access_token}"
+        ];
+        $staging=[
+            'title'=>'部署STAGING环境',
+            'actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=staging&access_token={$this->access_token}"
+        ];
+
+        if(in_array($branch, ['develop','app'])){
+
+            $btns=[$dev,$staging];
+        }else if(strpos(strtoupper($branch), 'KF-')!==false){
+
+            $btns=[$test,$dev];
+        }else{
+
+            $btns=[$test,$dev,$staging];
+        }
 
         $data=$this->card("{$username} 往 {$branch} 上传了代码",$text,$btns);
 

@@ -8,7 +8,7 @@ $branch=$get['branch'];
 
 if(empty($access_token)) return false;
 
-define('ROOT', __DIR__);
+define('ROOT', dirname(__DIR__));
 
 include_once(ROOT.'/dingtalk/notify.php');
 
