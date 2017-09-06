@@ -14,6 +14,8 @@ class GitlabMessage {
 
     private $user_name;
 
+    private $is_deleted=false;
+
     private $commits=[];
 
     public function __construct($project,$post){
@@ -39,6 +41,9 @@ class GitlabMessage {
                     'create_date'=>date("Y-m-d H:i",strtotime($commit['timestamp']))
                 ];
             }
+        }else{
+
+            $this->is_deleted=true;
         }
     }
 
@@ -69,5 +74,10 @@ class GitlabMessage {
     public function getCommits(){
 
         return $this->commits;
+    }
+
+    public function isDeleted(){
+
+        return $this->is_deleted;
     }
 }

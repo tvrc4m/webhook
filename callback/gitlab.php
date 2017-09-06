@@ -25,8 +25,10 @@ switch ($action) {
 
     case 'push':
     {
-        $result=$dingtalk_notify->gitPush($gitlab_message);
-        print_r($result);
+        if(!$gitlab_message->isDeleted()){
+            $result=$dingtalk_notify->gitPush($gitlab_message);
+            print_r($result);
+        }
         break;   
     }
 }
