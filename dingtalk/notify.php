@@ -209,15 +209,17 @@ class DingtalkNotify {
         return 
         [
             'msgtype'=>'actionCard',
-            'title'=>$title,
-            'text'=>$text,
-            'btns'=>[
-                ['title'=>'TEST','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=test&access_token={$this->access_token}"],
-                ['title'=>'DEV','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=dev&access_token={$this->access_token}"],
-                ['title'=>'STAGING','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=staging&access_token={$this->access_token}"],
-            ],
-            'btnOrientation'=>'1',
-            'hideAvatar'=>false
+            'actionCard'=>[
+                'title'=>$title,
+                'text'=>$text,
+                'btns'=>[
+                    ['title'=>'TEST','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=test&access_token={$this->access_token}"],
+                    ['title'=>'DEV','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=dev&access_token={$this->access_token}"],
+                    ['title'=>'STAGING','actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=staging&access_token={$this->access_token}"],
+                ],
+                'btnOrientation'=>'0',
+                'hideAvatar'=>false
+            ]
         ];
     }
 
