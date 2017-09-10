@@ -40,7 +40,7 @@ class DingtalkNotify {
         $creator=$jira_message->getIssueCreator();
         $url=$jira_message->getIssueUrl();
 
-        $text=" {$creator} 新建任务: {$issue}\n\n> [{$title}]($url)\n\n > 优先级: ![]({$priority['icon']}){$priority['name']}\n\n开发: @{$assignee}";
+        $text=" {$creator} 新建任务: {$issue}\n\n> [{$title}]($url)\n\n > 优先级: {$priority['name']}\n\n开发: @{$assignee}";
 
         $data=$this->markdown($creator.' 新建任务: '.$issue,$text,[$assignee]);
         // print_r($data);
@@ -62,7 +62,7 @@ class DingtalkNotify {
         $assignee=$jira_message->getIssueAssigneePhone();
         $url=$jira_message->getIssueUrl();
 
-        $text=" {$title}\n\n> ![]({$priority['icon']}){$priority['name']}\n\n###查看[Jira]({$url})";
+        $text=" {$title}\n\n> {$priority['name']}\n\n###查看[Jira]({$url})";
 
         $data=$this->markdown($title,$text,[$assignee]);
 
@@ -90,7 +90,7 @@ class DingtalkNotify {
 
         $notify_users_list=implode(' ', $notify_users);
 
-        $text=" {$assignee} 解决了任务: {$issue}\n\n> [{$title}]({$url})\n\n> 优先级: ![]({$priority['icon']}){$priority['name']}\n\n{$notify_users_list}";
+        $text=" {$assignee} 解决了任务: {$issue}\n\n> [{$title}]({$url})\n\n> 优先级: {$priority['name']}\n\n{$notify_users_list}";
 
         $data=$this->markdown($assignee.' 解决了任务: '.$issue,$text,$groups['php']['test']);
 
@@ -111,7 +111,7 @@ class DingtalkNotify {
         $url=$jira_message->getIssueUrl();
         $operator=$jira_message->getIssueOperator();
 
-        $text=" {$operator} 重新打开任务: {$issue}\n\n> [{$title}]({$url})\n\n> 优先级: ![]({$priority['icon']}){$priority['name']}\n\n开发: @{$assignee}";
+        $text=" {$operator} 重新打开任务: {$issue}\n\n> [{$title}]({$url})\n\n> 优先级: {$priority['name']}\n\n开发: @{$assignee}";
         
         $data=$this->markdown('Reopen任务: '.$issue,$text,[$assignee]);
 
@@ -154,16 +154,16 @@ class DingtalkNotify {
             'actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=staging&access_token={$this->access_token}"
         ];
 
-        if(in_array($branch, ['develop','app'])){
+        // if(in_array($branch, ['develop','app'])){
 
-            $btns=[$dev,$staging];
-        }else if(strpos(strtoupper($branch), 'KF-')!==false){
+            // $btns=[$dev,$staging];
+        // }else if(strpos(strtoupper($branch), 'KF-')!==false){
 
             $btns=[$test,$dev];
-        }else{
+        // }else{
 
-            $btns=[$test,$dev,$staging];
-        }
+        //     $btns=[$test,$dev,$staging];
+        // }
 
         $data=$this->card("{$branch}分支代码更新",$text,$btns);
 
