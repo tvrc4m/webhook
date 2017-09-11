@@ -164,18 +164,20 @@ class DingtalkNotify {
             'actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=staging&access_token={$this->access_token}"
         ];
 
+        $test_url=$this->webhook_url."/deploy.php?branch={$branch}&env=test&access_token={$this->access_token}";
+
         // if(in_array($branch, ['develop','app'])){
 
             // $btns=[$dev,$staging];
         // }else if(strpos(strtoupper($branch), 'KF-')!==false){
 
-            $btns=[$test,$dev];
+            // $btns=[$test,$dev];
         // }else{
 
         //     $btns=[$test,$dev,$staging];
         // }
 
-        $data=$this->card("{$branch}分支代码更新",$text,$btns);
+        $data=$this->single("{$branch}分支代码更新",$text,$test_url);
 
         return $this->http($data);
 
@@ -227,6 +229,22 @@ class DingtalkNotify {
             'msgtype'=>'text',
             'text'=>['content'=>$text],
             'at'=>['atMobiles'=>$assignee,'isAtAll'=>false]
+        ];
+    }
+
+    private function single($title,$text,$url,$assignee=[]){
+
+        return 
+        [
+            'msgtype'=>'actionCard',
+            'actionCard'=>[
+                'title'=>$title,
+                'text'=>$text,
+                'singleTitle'=>'部署到TEST环境',
+                'singleURL'=>$url,
+                'btnOrientation'=>'1',
+                'hideAvatar'=>'0'
+            ]
         ];
     }
 
