@@ -30,12 +30,12 @@ switch ($action) {
         break;   
     }
 
-    // case 'jira:issue_updated':
-    // {
-    //     $result=$dingtalk_notify->issueUpdated($jira_message);
+    case 'jira:issue_updated':
+    {
+        $result=$dingtalk_notify->issueUpdated($jira_message);
 
-    //     break;
-    // }
+        break;
+    }
 }
 
 if($jira_message->isTransition()){

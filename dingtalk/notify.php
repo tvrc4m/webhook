@@ -57,14 +57,22 @@ class DingtalkNotify {
     public function issueUpdated(JiraMessage $jira_message){
 
         $title=$jira_message->getIssueTitle();
-        $summary=$jira_message->getIssueSummary();
         $priority=$jira_message->getIssuePriority();
         $assignee=$jira_message->getIssueAssigneePhone();
         $url=$jira_message->getIssueUrl();
+        $issue=$jira_message->getIssueNumber();
+        $logs=$jira_message->getChangeLogs();
 
-        $text=" {$title}\n\n> {$priority['name']}\n\n###查看[Jira]({$url})";
+        $text="[{$title}]($url)\n\n";
 
-        $data=$this->markdown($title,$text,[$assignee]);
+        $text.="> 优先级：{$priority}\n\n";
+
+        foreach ($logs as $log) {
+            
+            $text.="> {$log}\n\n";
+        }
+
+        $data=$this->markdown($issue."内容更改",$text,[$assignee]);
 
         $resp=$this->http($data);
     }

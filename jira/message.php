@@ -37,6 +37,8 @@ class JiraMessage {
      */
     private $operator;
 
+    private $changelogs=[];
+
     public function __construct($project,$post){
         // 项目名
         $this->project=$project;
@@ -74,7 +76,19 @@ class JiraMessage {
         }
 
         $this->operator=$post['user']['displayName'];
-        
+
+        $this->changelogs=[];
+
+        if($post['changelog']){
+
+            foreach ($post['changelog']['items'] as $change) {
+
+                if($change['field']=='assignee'){
+
+                    $this->changelogs[]=['开发者由'.$change['fromString'].'改成'.$change['toString']];    
+                }
+            }
+        }
     }
 
     /**
@@ -196,6 +210,11 @@ class JiraMessage {
     public function getIssueCreator(){
 
         return $this->creator;
+    }
+
+    public function getChangeLogs(){
+
+        return $this->changelogs;
     }
 
     /**
