@@ -63,6 +63,8 @@ class DingtalkNotify {
         $issue=$jira_message->getIssueNumber();
         $logs=$jira_message->getChangeLogs();
 
+        if(empty($logs)) return false;
+
         $text="[{$title}]($url)\n\n";
 
         $text.="> 优先级：{$priority['name']}\n\n";
