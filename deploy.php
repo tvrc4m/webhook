@@ -16,6 +16,9 @@ $dingtalk_notify=new DingtalkNotify($access_token);
 
 $result=$cli->deploy($env,$branch);
 
-$dingtalk_notify->deployStart($env,$branch);
+if($env!='dev' && $env!='staging'){
+    
+    $dingtalk_notify->deployStart($env,$branch);    
+}
 
 print_r($result);
