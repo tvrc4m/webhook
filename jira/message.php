@@ -85,7 +85,7 @@ class JiraMessage {
 
                 if($change['field']=='assignee'){
 
-                    $this->changelogs[]=['开发者由'.$change['fromString'].'改成'.$change['toString']];    
+                    $this->changelogs[]='开发者由'.$change['fromString'].'改成'.$change['toString'];
                 }
             }
         }

@@ -65,7 +65,7 @@ class DingtalkNotify {
 
         $text="[{$title}]($url)\n\n";
 
-        $text.="> 优先级：{$priority}\n\n";
+        $text.="> 优先级：{$priority['name']}\n\n";
 
         foreach ($logs as $log) {
             
