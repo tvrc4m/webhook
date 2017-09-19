@@ -16,7 +16,7 @@ $dingtalk_notify=new DingtalkNotify($access_token);
 
 $result=$cli->deploy($env,$branch);
 
-if($env!='dev' && $env!='staging'){
+if($env!='dev' && $env!='staging' && $env!='webhook' && $env!='doc'){
     
     $dingtalk_notify->deployStart($env,$branch);    
 }
