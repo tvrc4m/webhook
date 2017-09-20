@@ -58,7 +58,7 @@ class GitlabMessage {
 
     public function getDisplayName($name){
 
-        $users=['wei shan'=>'魏山','tvrc4m'=>'魏山','lishou'=>'李硕','wjj'=>'王娟娟','dawn'=>'郑生齐','xiaoayong'=>'肖阿勇','wuchao'=>'武超'];
+        $users=['wei shan'=>'魏山','tvrc4m'=>'魏山','lishou'=>'李硕','wjj'=>'王娟娟','wangjuanjuan'=>'王娟娟','dawn'=>'郑生齐','xiaoayong'=>'肖阿勇','wuchao'=>'武超'];
 
         return isset($users[$name])?$users[$name]:$name;
     }
