@@ -8,18 +8,13 @@ class GitlabApi {
      * @var string
      */
     private $private_token='dBfZV2M_zYhF1gDcKKWX';
-    /**
-     * 用户
-     * @var string
-     */
-    private $sudo='shan';
 
     /**
      * 项目id
      * @var integer
      */
-    // private $project_id=3; // php/news.git
-    private $project_id=11; // shan/test.git
+    private $project_id=3; // php/news.git
+    // private $project_id=11; // shan/test.git
     /**
      * 错误消息
      * @var string
@@ -77,7 +72,7 @@ class GitlabApi {
 
     public function revertMergeRequest(){
 
-        
+
     }
     /**
      * 检查响应
@@ -125,6 +120,8 @@ class GitlabApi {
         curl_close($ch);
 
         $response=json_decode($result,true);
+
+        @file_put_contents('/tmp/gitlab.log', var_export($response,true).PHP_EOL,FILE_APPEND);
 
         // $this->getHttpCode($response);
         

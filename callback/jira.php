@@ -64,7 +64,7 @@ switch ($action) {
                     $dingtalk_notify->notifyTextUrl($title,$operator.'接受合并请求失败:'.$result['message'],'查看详情',$result['web_url']);
                 }else{
 
-                    $dingtalk_notify->notifyTextUrl($title,$result['title'].'\n\n> 合并成功','查看详情',$result['web_url']);
+                    $dingtalk_notify->notifyTextUrl($title,$result['title']."\n\n> 合并成功",'查看详情',$result['web_url']);
                 }
             }
         }
