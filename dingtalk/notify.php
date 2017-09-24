@@ -188,12 +188,17 @@ class DingtalkNotify {
         switch ($gitlab_message->merge_status) {
 
             case 'opened':
-                $this->single($gitlab_message->merge_title,"\t".$gitlab_message->merge_title.' 请求已创建,等待合并','查看详情',$gitlab_message->merge_url);
+                $data=$this->single($gitlab_message->merge_title,"\t".$gitlab_message->merge_title.' 请求已创建,等待合并','查看详情',$gitlab_message->merge_url);
                 break;
             case 'merged':
-                $this->single($gitlab_message->merge_title,"\t".$gitlab_message->merge_title.' 已合并','查看详情',$gitlab_message->merge_url);
+                $data=$this->single($gitlab_message->merge_title,"\t".$gitlab_message->merge_title.' 已合并','查看详情',$gitlab_message->merge_url);
                 break;        
-        }        
+        } 
+
+        if($data){
+
+            $this->http($data);
+        }       
     }
     /**
      * 开始deploy的提示
