@@ -41,13 +41,31 @@ switch ($action) {
             $gitlab_api=new GitlabApi();
 
             $src_branch=$jira_message->getIssueNumber();
-            $title=$jira_message->getIssueOperator().' merge '.$src_branch.' to develop';
+            $operator=$jira_message->getIssueOperator();
+            $title=' merge '.$src_branch.' to develop';
+            // 发起请求
+            $result=$gitlab_api->createMergeRequest($src_branch,'develop',$operator.$title);
 
-            $result=$gitlab_api->createMergeRequest($src_branch,'develop',$title);
+            if(empty($result)){
 
-            if($result && empty($result['message'])){
+                $dingtalk_notify->notifyText($title,$operator.' 发起合并请求失败:'.$title);
+            }elseif($result['message']){
+
+                // 采用gitlab webhook通知
+            }else{
                 // 接受合并请求
                 $response=$gitlab_api->acceptMergeRequest($result['id']);
+
+                if(empty($response)){
+
+                    $dingtalk_notify->notifyText($title,$operator.'接受合并请求失败:'.$title);
+                }elseif($response['message']){
+
+                    $dingtalk_notify->notifyTextUrl($title,$operator.'接受合并请求失败:'.$result['message'],'查看详情',$result['web_url']);
+                }else{
+
+                    // 采用gitlab webhook通知
+                }
             }
         }
 
