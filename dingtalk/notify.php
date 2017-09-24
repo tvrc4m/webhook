@@ -194,7 +194,7 @@ class DingtalkNotify {
             //     $data=$this->single($title,"\t".$title.' 请求已创建,等待合并','查看详情',$url);
             //     break;
             case 'merged':
-                $this->notifyTextUrl($title,"\t".$title.' 已合并','查看详情',$url);
+                $this->notifyTextUrl($title,"\t".$title.' 已合并',$url);
                 break;        
         } 
     }
@@ -243,13 +243,12 @@ class DingtalkNotify {
      * 文本带链接通知
      * @param  string $title     
      * @param  string $text      
-     * @param  string $url_title url文本
      * @param  string $url       url链接 
      * @return 
      */
-    public function notifyTextUrl($title,$text,$url_title,$url){
+    public function notifyTextUrl($title,$text,$url){
 
-        $data=$this->card($title,$text,[['title'=>$url_title,'actionURL'=>$url]]);
+        $data=$this->link($title,$text,$url);
 
         return $this->http($data);
     }
@@ -327,6 +326,25 @@ class DingtalkNotify {
                 'btns'=>$btns,
                 'btnOrientation'=>'1',
                 'hideAvatar'=>'0'
+            ]
+        ];
+    }
+    /**
+     * 文本链接的方式
+     * @param  string $title 
+     * @param  string $text  
+     * @param  string $url   
+     * @return 
+     */
+    private function link($title,$text,$url){
+
+        return
+        [
+            'msgtype'=>'link',
+            'link'=>[
+                'title'=>$title,
+                'text'=>$text,
+                'messageUrl'=>$url
             ]
         ];
     }

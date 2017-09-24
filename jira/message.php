@@ -81,7 +81,7 @@ class JiraMessage {
             $this->comment=['content'=>$post['comment']['body'],'author'=>$post['comment']['author']['displayName']];
         }
 
-        $this->operator=$post['user']['displayName'];
+        $this->operator=$this->getDisplayName($post['user']['displayName']);
 
         $this->changelogs=[];
 
@@ -127,6 +127,15 @@ class JiraMessage {
             'lijialin'=>'15910442846',
             'haohuili'=>'18501219135'
         ];
+    }
+
+    private function getDisplayName($name){
+
+        switch ($name) {
+            case 'admin':return '魏山';break;
+            case 'lijialin':return '李嘉临';break;
+            default: return $name;
+        }
     }
 
     /**
