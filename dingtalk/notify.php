@@ -342,7 +342,7 @@ class DingtalkNotify {
         curl_setopt($ch, CURLOPT_POST, 1);
         print_r(json_encode($data));
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        
+        @file_put_contents('/tmp/dingtalk.log', var_export($data,true).PHP_EOL,FILE_APPEND);        
         curl_setopt($ch, CURLOPT_URL, $this->notify_url."?access_token=".$this->access_token);
 
         if( ! $result = curl_exec($ch)) {
@@ -350,7 +350,7 @@ class DingtalkNotify {
         }
         print_r($result);
         curl_close($ch);
-        @file_put_contents('/tmp/jira.log', var_export($result,true).PHP_EOL,FILE_APPEND);
+        @file_put_contents('/tmp/dingtalk.log', var_export($result,true).PHP_EOL,FILE_APPEND);
         return $result;
     }
 }
