@@ -3,6 +3,7 @@
 error_reporting(E_ALL ^ E_NOTICE);
 
 define('ROOT', dirname(__dir__));
+define('BASEURL', 'http://webhook.vrcdkj.cn');
 
 $str = file_get_contents('php://input');
 

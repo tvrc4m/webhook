@@ -55,6 +55,7 @@ class GitlabMessage {
         $this->merge_title=$post['object_attributes']['title'];
         $this->merge_web_url=$post['object_attributes']['url'];
         $this->merge_status=$post['object_attributes']['state'];
+        $this->merge_image=BASEURL."/git-icon.png";
     }
 
     /**

@@ -186,7 +186,7 @@ class DingtalkNotify {
     public function gitMerge(GitlabMessage $gitlab_message){
 
         $title=$gitlab_message->merge_title;
-        $url=$gitlab_message->merge_url;
+        $url=$gitlab_message->merge_web_url;
 
         switch ($gitlab_message->merge_status) {
 
@@ -194,7 +194,7 @@ class DingtalkNotify {
             //     $data=$this->single($title,"\t".$title.' 请求已创建,等待合并','查看详情',$url);
             //     break;
             case 'merged':
-                $this->notifyTextUrl($title,"\t".$title.' 已合并',$url);
+                $this->notifyTextUrl($title,"\t".$title.' 已合并',$url,$gitlab_message->merge_image);
                 break;        
         } 
     }
@@ -246,9 +246,9 @@ class DingtalkNotify {
      * @param  string $url       url链接 
      * @return 
      */
-    public function notifyTextUrl($title,$text,$url){
+    public function notifyTextUrl($title,$text,$url,$image){
 
-        $data=$this->link($title,$text,$url);
+        $data=$this->link($title,$text,$url,$image);
 
         return $this->http($data);
     }
@@ -336,7 +336,7 @@ class DingtalkNotify {
      * @param  string $url   
      * @return 
      */
-    private function link($title,$text,$url){
+    private function link($title,$text,$url,$image){
 
         return
         [
@@ -344,7 +344,8 @@ class DingtalkNotify {
             'link'=>[
                 'title'=>$title,
                 'text'=>$text,
-                'messageUrl'=>$url
+                'messageUrl'=>$url,
+                'picUrl'=>$image
             ]
         ];
     }
