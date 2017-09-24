@@ -63,7 +63,7 @@ switch ($action) {
                     $dingtalk_notify->notifyText($title,$operator.'接受合并请求失败:'.$title);
                 }elseif($response['message']){
 
-                    $dingtalk_notify->notifyTextUrl($title,$operator.'接受合并请求失败:'.$result['message'],'查看详情',$result['web_url']);
+                    $dingtalk_notify->notifyTextUrl($title,$operator.'接受合并请求失败:'.$response['message'],'查看详情',$result['web_url']);
                 }else{
 
                     // 采用gitlab webhook通知
