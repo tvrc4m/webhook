@@ -18,6 +18,12 @@ class GitlabMessage {
 
     private $commits=[];
 
+    public $merge_title;
+
+    public $merge_web_url;
+
+    public $merge_status;
+
     public function __construct($project,$post){
         // 项目名
         $this->project=$post['project']['name'];
@@ -45,6 +51,10 @@ class GitlabMessage {
 
             $this->is_deleted=true;
         }
+
+        $this->merge_title=$post['object_attributes']['title'];
+        $this->merge_web_url=$post['object_attributes']['url'];
+        $this->merge_status=$post['object_attributes']['state'];
     }
 
     /**

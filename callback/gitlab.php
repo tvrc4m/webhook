@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL ^ E_NOTICE);
+
 define('ROOT', dirname(__dir__));
 
 $str = file_get_contents('php://input');
@@ -30,5 +32,9 @@ switch ($action) {
             print_r($result);
         }
         break;   
+    }
+    case 'merge_request':
+    {
+        $dingtalk_notify->gitMerge($gitlab_message);
     }
 }

@@ -182,6 +182,19 @@ class DingtalkNotify {
         return $this->http($data);
 
     }
+
+    public function gitMerge(GitlabMessage $gitlab_message){
+
+        switch ($gitlab_message->merge_status) {
+
+            case 'opened':
+                $this->single($gitlab_message->merge_title,"\t".$gitlab_message->merge_title.' 请求已创建,等待合并','查看详情',$gitlab_message->merge_url);
+                break;
+            case 'merged':
+                $this->single($gitlab_message->merge_title,"\t".$gitlab_message->merge_title.' 已合并','查看详情',$gitlab_message->merge_url);
+                break;        
+        }        
+    }
     /**
      * 开始deploy的提示
      * @return 

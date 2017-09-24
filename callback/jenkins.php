@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL ^ E_NOTICE);
+
 $get=$_GET;
 
 $access_token=$get['access_token'];
