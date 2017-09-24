@@ -185,20 +185,18 @@ class DingtalkNotify {
 
     public function gitMerge(GitlabMessage $gitlab_message){
 
+        $title=$gitlab_message->merge_title;
+        $url=$gitlab_message->merge_url;
+
         switch ($gitlab_message->merge_status) {
 
             // case 'opened':
-            //     $data=$this->single($gitlab_message->merge_title,"\t".$gitlab_message->merge_title.' 请求已创建,等待合并','查看详情',$gitlab_message->merge_url);
+            //     $data=$this->single($title,"\t".$title.' 请求已创建,等待合并','查看详情',$url);
             //     break;
             case 'merged':
-                $data=$this->single($gitlab_message->merge_title,"\t".$gitlab_message->merge_title.' 已合并','查看详情',$gitlab_message->merge_url);
+                $this->notifyTextUrl($title,"\t".$title.' 已合并','查看详情',$url);
                 break;        
         } 
-
-        if($data){
-
-            $this->http($data);
-        }       
     }
     /**
      * 开始deploy的提示
@@ -251,7 +249,7 @@ class DingtalkNotify {
      */
     public function notifyTextUrl($title,$text,$url_title,$url){
 
-        $data=$this->card($title,$text,['title'=>$url_title,'actionURL'=>$url]);
+        $data=$this->card($title,$text,[['title'=>$url_title,'actionURL'=>$url]]);
 
         return $this->http($data);
     }
