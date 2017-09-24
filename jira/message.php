@@ -30,6 +30,12 @@ class JiraMessage {
 
     private $is_comment=false;
 
+    /**
+     * 是否需要在staging上测试
+     * @var boolean
+     */
+    public $test_staging=false;
+
     private $comment;
     /**
      * 操作人
@@ -89,6 +95,12 @@ class JiraMessage {
                 }else if($change['field']=='description'){
 
                     $this->changelogs[]='issue内容由'.$change['fromString'].'改成'.$change['toString']; 
+                }else if($change['field']=='status'){
+                    // 10101:等待上线 10100:staging测试
+                    if($change['from']==10101 && $change['to']==10100){
+
+                        $this->test_staging=true;
+                    }
                 }
             }
         }

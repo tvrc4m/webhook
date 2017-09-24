@@ -177,7 +177,7 @@ class DingtalkNotify {
         //     $btns=[$test,$dev,$staging];
         // }
 
-        $data=$this->single("{$branch}分支代码更新",$text,$test_url);
+        $data=$this->single("{$branch}分支代码更新",$text,'部署到TEST环境',$test_url);
 
         return $this->http($data);
 
@@ -210,6 +210,34 @@ class DingtalkNotify {
         return $this->http($data);
     }
 
+    /**
+     * 普通文本通知
+     * @param  string $title 标题
+     * @param  string $text  内容
+     * @return 
+     */
+    public function notifyText($title,$text){
+
+        $data=$this->text($title,$text);
+
+        return $this->http($data);
+    }
+
+    /**
+     * 文本带链接通知
+     * @param  string $title     
+     * @param  string $text      
+     * @param  string $url_title url文本
+     * @param  string $url       url链接 
+     * @return 
+     */
+    public function notifyTextUrl($title,$text,$url_title,$url){
+
+        $data=$this->single($title,$text,$url_title,$url);
+
+        return $this->http($data);
+    }
+
     private function notify($msgtype){
 
         switch ($msgtype) {
@@ -232,7 +260,7 @@ class DingtalkNotify {
         ];
     }
 
-    private function single($title,$text,$url,$assignee=[]){
+    private function single($title,$text,$url_title,$url,$assignee=[]){
 
         return 
         [
@@ -240,7 +268,7 @@ class DingtalkNotify {
             'actionCard'=>[
                 'title'=>$title,
                 'text'=>$text,
-                'singleTitle'=>'部署到TEST环境',
+                'singleTitle'=>$url_title,
                 'singleURL'=>$url,
                 'btnOrientation'=>'1',
                 'hideAvatar'=>'0'

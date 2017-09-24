@@ -34,6 +34,41 @@ switch ($action) {
     {
         $result=$dingtalk_notify->issueUpdated($jira_message);
 
+        if ($jira_message->test_staging) {
+            
+            include_once(ROOT.'/gitlab/api.php');
+
+            $gitlab_api=new GitlabApi();
+
+            $src_branch=$jira_message->getIssueNumber();
+            $operator=$jira_message->getIssueOperator();
+            $title='merge '.$src_branch.' to develop';
+
+            $result=$gitlab_api->createMergeRequest($src_branch,'develop',$title);
+
+            if(empty($result)){
+
+                $dingtalk_notify->notifyText($title,$operator.' 发起合并请求失败:'.$title);
+            }elseif($result['message']){
+
+                $dingtalk_notify->notifyTextUrl($title,$operator.' 发起合并请求失败:'.$result['message'],'查看详情',$result['web_url']);
+            }else{
+                // 接受合并请求
+                $response=$gitlab_api->acceptMergeRequest($result['id']);
+
+                if(empty($response)){
+
+                    $dingtalk_notify->notifyText($title,$operator.'接受合并请求失败:'.$title);
+                }elseif($result['message']){
+
+                    $dingtalk_notify->notifyTextUrl($title,$operator.'接受合并请求失败:'.$result['message'],'查看详情',$result['web_url']);
+                }else{
+
+                    $dingtalk_notify->notifyTextUrl($title,$result['title'].'\n\n> 合并成功','查看详情',$result['web_url']);
+                }
+            }
+        }
+
         break;
     }
 }
