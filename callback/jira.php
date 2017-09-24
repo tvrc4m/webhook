@@ -45,7 +45,7 @@ switch ($action) {
 
             $result=$gitlab_api->createMergeRequest($src_branch,'develop',$title);
 
-            if($result && empty($result['message']))
+            if($result && empty($result['message'])){
                 // 接受合并请求
                 $response=$gitlab_api->acceptMergeRequest($result['id']);
             }
