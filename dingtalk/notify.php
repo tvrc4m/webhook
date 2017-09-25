@@ -194,7 +194,7 @@ class DingtalkNotify {
             //     $data=$this->single($title,"\t".$title.' 请求已创建,等待合并','查看详情',$url);
             //     break;
             case 'merged':
-                $this->notifyTextUrl($title,"\t".$title.' 已合并',$url,$gitlab_message->merge_image);
+                $this->notifyTextUrl($title,'已合并',$url,$gitlab_message->merge_image);
                 break;        
         } 
     }
@@ -252,19 +252,13 @@ class DingtalkNotify {
 
         return $this->http($data);
     }
-
-    private function notify($msgtype){
-
-        switch ($msgtype) {
-            case 'markdown':$this->markdown($msgtype);
-                break;
-            
-            default:
-                # code...
-                break;
-        }
-    }
-
+    /**
+     * 文本提示
+     * @param  string $title    
+     * @param  string $text     
+     * @param  array  $assignee 
+     * @return 
+     */
     private function text($title,$text,$assignee=[]){
 
         return 

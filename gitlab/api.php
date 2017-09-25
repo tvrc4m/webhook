@@ -70,6 +70,29 @@ class GitlabApi {
         return $result;
     }
 
+    /**
+     * 删除分支
+     * @param  string $branch 
+     * @return 
+     */
+    public function deleteBranch($branch){
+
+        $url="/projects/".$this->project_id."/repository/branches/".$branch;
+
+        return $this->http($url,'DELETE');
+    }
+
+    /**
+     * 删除已经合并的分支
+     * @return 
+     */
+    public function deleteMergedBranch(){
+
+        $url="/projects/".$this->project_id."/repository/merged_branches";
+
+        return $this->http($url,'DELETE');
+    }
+
     public function revertMergeRequest(){
 
 
@@ -105,6 +128,9 @@ class GitlabApi {
             $url.='?'.$params;
         }elseif(strtoupper($method)=='PUT'){
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        }elseif(strtoupper($method)=='DELETE'){
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         }else{
             curl_setopt($ch, CURLOPT_POST, 1);
