@@ -96,20 +96,20 @@ switch ($action) {
 
             if(empty($result)){
 
-                $dingtalk_notify->notifyText($title,$operator.' 发起合并请求失败:'.$title);
+                $dingtalk_notify->notifyText($title,$operator.$title."合并请求失败");
             }elseif($result['message']){
 
-                $dingtalk_notify->notifyTextUrl($title,$operator.'发起合并请求失败:'.$result['message'],$result['web_url'],BASEURL.'/git-icon.png');
+                $dingtalk_notify->notifyTextUrl($operator.$title,$result['message'],$result['web_url'],BASEURL.'/git-icon.png');
             }else{
                 // 接受合并请求
                 $response=$gitlab_api->acceptMergeRequest($result['id']);
 
                 if(empty($response)){
 
-                    $dingtalk_notify->notifyText($title,$operator.'接受合并请求失败:'.$title);
+                    $dingtalk_notify->notifyText($title,$operator.$title.'合并请求失败');
                 }elseif($response['message']){
 
-                    $dingtalk_notify->notifyTextUrl($title,$operator.'接受合并请求失败:'.$response['message'],$result['web_url'],BASEURL.'/git-icon.png');
+                    $dingtalk_notify->notifyTextUrl($operator.$title,$response['message'],$result['web_url'],BASEURL.'/git-icon.png');
                 }else{
 
                     // 采用gitlab webhook通知
