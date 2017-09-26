@@ -44,8 +44,27 @@ switch ($action) {
             $gitlab_api=new GitlabApi();
 
             $src_branch=$jira_message->getIssueNumber();
+            $issue_title=$jira_message->getIssueTitle();
             $operator=$jira_message->getIssueOperator();
             $title=' merge '.$src_branch.' to develop';
+
+            $branchInfo=$gitlab_api->getBranch($src_branch);
+
+            if(empty($branchInfo) || isset($branchInfo['message'])){
+
+                $branchInfo=$gitlab_api->getBranch(strtolower($src_branch));
+
+                if(empty($branchInfo) || isset($branchInfo['message'])){
+
+                    $dingtalk_notify->notifyText("{$src_branch}分支不存在","{$issue_title}\n\n{$src_branch}分支不存在");
+
+                    exit(0);
+                }else{
+
+                    $src_branch=strtolower($src_branch);
+                }
+            }
+
             // 发起请求
             $result=$gitlab_api->createMergeRequest($src_branch,'develop',$operator.$title);
 

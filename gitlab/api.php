@@ -71,6 +71,20 @@ class GitlabApi {
     }
 
     /**
+     * 获取分支名
+     * @param  string $branch 
+     * @return array
+     */
+    public function getBranch($branch){
+
+        $url='/projects/'.$this->project_id.'/repository/branches/'.$branch;
+
+        $result=$this->http($url,'GET');
+
+        return $result;
+    }
+
+    /**
      * 删除分支
      * @param  string $branch 
      * @return 
