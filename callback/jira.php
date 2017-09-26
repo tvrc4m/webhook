@@ -44,24 +44,50 @@ switch ($action) {
             $gitlab_api=new GitlabApi();
 
             $src_branch=$jira_message->getIssueNumber();
+            $parent_branch=$jira_message->getIssueParentNumber();
             $issue_title=$jira_message->getIssueTitle();
             $operator=$jira_message->getIssueOperator();
             $title=' merge '.$src_branch.' to develop';
 
-            $branchInfo=$gitlab_api->getBranch($src_branch);
+            $find_branch=true;
+            // 先查看parent branch是否存在
+            if($parent_branch){
 
-            if(empty($branchInfo) || isset($branchInfo['message'])){
+                $parentBranchInfo=$gitlab_api->getBranch($parent_branch);
 
-                $branchInfo=$gitlab_api->getBranch(strtolower($src_branch));
+                if(empty($parentBranchInfo) || isset($parentBranchInfo['message'])){
+
+                    $parentBranchInfo=$gitlab_api->getBranch(strtolower($src_branch));
+
+                    if(empty($parentBranchInfo) || isset($parentBranchInfo['message'])){
+
+                        $dingtalk_notify->notifyText("{$src_branch}分支不存在","{$issue_title}\n\n{$src_branch}分支不存在");
+
+                        $find_branch=false;
+                    }else{
+
+                        $src_branch=strtolower($src_branch);
+                    }
+                }
+            }
+            // 如果没有parent branch 则看issue branch
+            if(!$find_branch){
+
+                $branchInfo=$gitlab_api->getBranch($src_branch);
 
                 if(empty($branchInfo) || isset($branchInfo['message'])){
 
-                    $dingtalk_notify->notifyText("{$src_branch}分支不存在","{$issue_title}\n\n{$src_branch}分支不存在");
+                    $branchInfo=$gitlab_api->getBranch(strtolower($src_branch));
 
-                    exit(0);
-                }else{
+                    if(empty($branchInfo) || isset($branchInfo['message'])){
 
-                    $src_branch=strtolower($src_branch);
+                        $dingtalk_notify->notifyText("{$src_branch}分支不存在","{$issue_title}\n\n{$src_branch}分支不存在");
+
+                        exit(0);
+                    }else{
+
+                        $src_branch=strtolower($src_branch);
+                    }
                 }
             }
 

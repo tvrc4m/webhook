@@ -22,6 +22,12 @@ class JiraMessage {
 
     private $issue;
 
+    /**
+     * parent issue key
+     * @var 
+     */
+    private $parent_issue;
+
     private $is_transition=false;
 
     private $is_resolved=false;
@@ -62,6 +68,8 @@ class JiraMessage {
         $this->priority=$post['issue']['fields']['priority'];
         // issue号
         $this->issue=$post['issue']['key'];
+        // issue parent key
+        $this->parent_issue=$post['issue']['parent']['key'];
         // issue 类型
         $this->issue_type=$post['issue']['fields']['issuetype']['name'];
         // 进度通知
@@ -230,6 +238,11 @@ class JiraMessage {
     public function getIssueNumber(){
 
         return $this->issue;
+    }
+
+    public function getIssueParentNumber(){
+
+        return $this->parent_issue;
     }
 
     public function getIssueCreator(){
