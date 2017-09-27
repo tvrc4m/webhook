@@ -39,6 +39,12 @@ class GitlabMessage {
         if($post['commits']){
 
             foreach ($post['commits'] as $commit) {
+
+                if(strpos($commit['message'], '查看合并请求')){
+
+                    $this->commits=[];
+                    break;
+                }
                 
                 $this->commits[]=[
                     'username'=>$this->getDisplayName(trim($commit['author']['name'])),
