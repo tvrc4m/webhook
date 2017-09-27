@@ -143,6 +143,8 @@ class DingtalkNotify {
 
         if(in_array($branch, $filter)) return false;
 
+        if(empty($commits)) return false;
+
         $text=" {$username} 往 {$branch}分支 上传了代码\n\n";
 
         foreach ($commits as $k=>$commit) {
