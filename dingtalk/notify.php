@@ -234,9 +234,9 @@ class DingtalkNotify {
      * @param  string $text  内容
      * @return 
      */
-    public function notifyText($title,$text){
+    public function notifyText($title,$text,$isall=false){
 
-        $data=$this->text($title,$text);
+        $data=$this->text($title,$text,[],$isall);
 
         return $this->http($data);
     }
@@ -261,13 +261,13 @@ class DingtalkNotify {
      * @param  array  $assignee 
      * @return 
      */
-    private function text($title,$text,$assignee=[]){
+    private function text($title,$text,$assignee=[],$isall=false){
 
         return 
         [
             'msgtype'=>'text',
             'text'=>['content'=>$text],
-            'at'=>['atMobiles'=>$assignee,'isAtAll'=>false]
+            'at'=>['atMobiles'=>$assignee,'isAtAll'=>$isall]
         ];
     }
 

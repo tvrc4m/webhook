@@ -111,20 +111,6 @@ class GitlabApi {
 
 
     }
-    /**
-     * 检查响应
-     * @param  array $response 响应数据
-     * @return boolean
-     */
-    private function getHttpCode($response){
-
-        if(isset($response['message'])){
-
-            $this->http_code=substr($response['message'], 0,3);
-        }
-
-        $this->http_code=200;
-    }
 
     private function http($url,$method='GET',$data=[]){
 
@@ -157,14 +143,14 @@ class GitlabApi {
             $error=curl_error($ch);
         }
 
+        $this->http_code=curl_getinfo($ch,CURLINFO_HTTP_CODE);
+
         curl_close($ch);
 
         $response=json_decode($result,true);
 
         @file_put_contents('/tmp/gitlab.log', var_export($response,true).PHP_EOL,FILE_APPEND);
 
-        // $this->getHttpCode($response);
-        
         return $response;
     }
 }
