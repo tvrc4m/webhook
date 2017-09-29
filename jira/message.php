@@ -100,6 +100,12 @@ class JiraMessage {
                 if($change['field']=='assignee'){
 
                     $this->changelogs[]='开发者由'.$change['fromString'].'改成'.$change['toString'];
+                    
+                    if($post['comment']['body']){
+
+                        $this->changelogs[]=$this->getDisplayName($post['comment']['author']['displayName'])."添加评论: ".$post['comment']['body'];
+                    }
+                    
                 }else if($change['field']=='description'){
 
                     $this->changelogs[]='issue内容由'.$change['fromString'].'改成'.$change['toString']; 
@@ -290,6 +296,15 @@ class JiraMessage {
     public function isComment(){
 
         return $this->is_comment;
+    }
+
+    /**
+     * 获取评论
+     * @return array
+     */
+    public function getComment(){
+
+        return $this->comment;
     }
 
     /**
