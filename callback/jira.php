@@ -36,10 +36,18 @@ switch ($action) {
     case 'jira:issue_updated':
     {
         $result=$dingtalk_notify->issueUpdated($jira_message);
-
-        if ($jira_message->test_staging) {
+        // 当issue由staging测试及开发完成时
+        if ($jira_message->test_staging && $jira_message->is_resolved) {
             
             include_once(ROOT.'/gitlab/api.php');
+
+            if($jira_message->test_staging){
+
+                $dest_branch='develop';
+            }elseif($jira_message->is_resolved){
+
+                $dest_branch='app';
+            }
 
             $gitlab_api=new GitlabApi();
 
@@ -47,7 +55,7 @@ switch ($action) {
             $parent_branch=$jira_message->getIssueParentNumber();
             $issue_title=$jira_message->getIssueTitle();
             $operator=$jira_message->getIssueOperator();
-            $title=' merge '.$src_branch.' to develop';
+            $title=' merge '.$src_branch.' to '.$dest_branch;
 
             $find_branch=true;
             // 先查看parent branch是否存在
@@ -92,7 +100,7 @@ switch ($action) {
             }
 
             // 发起请求
-            $result=$gitlab_api->createMergeRequest($src_branch,'develop',$operator.$title);
+            $result=$gitlab_api->createMergeRequest($src_branch,$dest_branch,$operator.$title);
 
             if(empty($result)){
 
