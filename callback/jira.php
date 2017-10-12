@@ -37,14 +37,14 @@ switch ($action) {
     {
         $result=$dingtalk_notify->issueUpdated($jira_message);
         // 当issue由staging测试及开发完成时
-        if ($jira_message->test_staging || $jira_message->is_resolved) {
+        if ($jira_message->test_staging || $jira_message->IsIssueResolved()) {
             
             include_once(ROOT.'/gitlab/api.php');
 
             if($jira_message->test_staging){
 
                 $dest_branch='develop';
-            }elseif($jira_message->is_resolved){
+            }elseif($jira_message->IsIssueResolved()){
 
                 $dest_branch='app';
             }
