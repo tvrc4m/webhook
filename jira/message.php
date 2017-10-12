@@ -51,6 +51,12 @@ class JiraMessage {
 
     private $changelogs=[];
 
+    /**
+     * 关联的附近
+     * @var array
+     */
+    private $attachfiles=[];
+
     public function __construct($project,$post){
         // 项目名
         $this->project=$project;
@@ -114,6 +120,18 @@ class JiraMessage {
                     if($change['from']==10101 && $change['to']==10100){
 
                         $this->test_staging=true;
+                    }
+                }elseif($change['field']=='Attachment'){
+
+                    foreach ($post['issue']['attachment'] as $attachment) {
+                        
+                        if($attachment['id']==$change['to']){
+
+                            if(in_array($attachment['mimeType'], ['image/png','image/jpeg','image/jpg'])){
+
+                                $this->attachfiles['image'][]=$attachment['content'];  
+                            }
+                        }
                     }
                 }
             }
@@ -277,6 +295,11 @@ class JiraMessage {
     public function getIssueOperator(){
 
         return $this->operator;
+    }
+
+    public function getAttachFiles(){
+
+        return $this->attachfiles;
     }
 
     /**

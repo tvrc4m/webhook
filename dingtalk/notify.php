@@ -62,6 +62,7 @@ class DingtalkNotify {
         $url=$jira_message->getIssueUrl();
         $issue=$jira_message->getIssueNumber();
         $logs=$jira_message->getChangeLogs();
+        $attachfiles=$jira_message->getAttachFiles();
 
         if(empty($logs)) return false;
 
@@ -72,6 +73,17 @@ class DingtalkNotify {
         foreach ($logs as $log) {
             
             $text.="> {$log}\n\n";
+        }
+
+        foreach ($attachfiles as $type=>$files) {
+            
+            if($type=='image'){
+
+                foreach ($files as $file) {
+                    
+                    $text.="![](".$file.")\n\n";
+                }
+            }
         }
 
         $data=$this->markdown($issue."内容更改",$text,[$assignee]);
