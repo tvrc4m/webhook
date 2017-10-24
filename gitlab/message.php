@@ -52,7 +52,7 @@ class GitlabMessage {
                     break;
                 }
 
-                if($git_user_name==$commit['author']['name']){
+                if($this->git_user_name==$commit['author']['name']){
 
                     $this->commits[]=[
                         'username'=>$this->getDisplayName(trim($commit['author']['name'])),
