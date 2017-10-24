@@ -38,7 +38,7 @@ class GitlabMessage {
         $this->branch_name=str_replace('refs/heads/','', $post['ref']);
 
         $this->user_name=$this->getDisplayName($post['user_name']);
-        $this->git_user_name=$post['user_username'];
+        $user_email=$post['user_email'];
 
         $this->commits=[];
 
@@ -52,7 +52,7 @@ class GitlabMessage {
                     break;
                 }
 
-                if($this->git_user_name==$commit['author']['name']){
+                if($user_email==$commit['author']['email']){
 
                     $this->commits[]=[
                         'username'=>$this->getDisplayName(trim($commit['author']['name'])),
