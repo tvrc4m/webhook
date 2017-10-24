@@ -13,6 +13,11 @@ class GitlabMessage {
     private $branch_name;
 
     private $user_name;
+    /**
+     * git提交时的用户名
+     * @var string
+     */
+    private $git_user_name;
 
     private $is_deleted=false;
 
@@ -33,6 +38,7 @@ class GitlabMessage {
         $this->branch_name=str_replace('refs/heads/','', $post['ref']);
 
         $this->user_name=$this->getDisplayName($post['user_name']);
+        $this->git_user_name=$post['user_username'];
 
         $this->commits=[];
 
@@ -45,13 +51,16 @@ class GitlabMessage {
                     $this->commits=[];
                     break;
                 }
-                
-                $this->commits[]=[
-                    'username'=>$this->getDisplayName(trim($commit['author']['name'])),
-                    'message'=>$commit['message'],
-                    'url'=>$commit['url'],
-                    'create_date'=>date("Y-m-d H:i",strtotime($commit['timestamp']))
-                ];
+
+                if($git_user_name==$commit['author']['name']){
+
+                    $this->commits[]=[
+                        'username'=>$this->getDisplayName(trim($commit['author']['name'])),
+                        'message'=>$commit['message'],
+                        'url'=>$commit['url'],
+                        'create_date'=>date("Y-m-d H:i",strtotime($commit['timestamp']))
+                    ];
+                }
             }
         }else{
 
