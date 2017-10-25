@@ -37,7 +37,8 @@ switch ($action) {
     {
         $result=$dingtalk_notify->issueUpdated($jira_message);
         // 当issue由staging测试及开发完成时
-        if ($jira_message->test_staging || $jira_message->IsIssueResolved()) {
+        // 目前只支持php项目
+        if ($project=='php' && $jira_message->test_staging || $jira_message->IsIssueResolved()) {
             
             include_once(ROOT.'/gitlab/api.php');
 
