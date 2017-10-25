@@ -281,7 +281,7 @@ class JiraMessage {
 
     public function getIssueCreator(){
 
-        return $this->creator;
+        return $this->getDisplayName($this->creator);
     }
 
     public function getChangeLogs(){
