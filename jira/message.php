@@ -114,7 +114,7 @@ class JiraMessage {
                     
                 }else if($change['field']=='description'){
 
-                    $this->changelogs[]='issue内容由'.$change['fromString']."\n\n改成\n\n".$change['toString']; 
+                    // $this->changelogs[]='issue内容由'.$change['fromString']."\n\n>改成\n\n>".$change['toString']; 
                 }else if($change['field']=='status'){
                     // 10101:等待上线 10100:staging测试
                     if($change['from']==10101 && $change['to']==10100){
