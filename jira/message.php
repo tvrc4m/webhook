@@ -159,6 +159,9 @@ class JiraMessage {
             'lijialin'=>'15910442846',
             'haohuili'=>'18501219135',
             'baibaoqiang'=>'15201496976',
+            'liuyanmei'=>'13401162965',
+            'kongbin'=>'15801261092',
+            'webxu'=>'15011103838',
             // andriod
             'jingke'=>'17701304842',
             'wangliang'=>'15810359716',
@@ -167,8 +170,7 @@ class JiraMessage {
             'jiamao'=>'15010981834',
             'fulong0320'=>'17611228816',
             'liubaoheng'=>'18337142091',
-            '张茹'=>'18511306676'
-
+            '张茹'=>'18511306676',
         ];
     }
 
