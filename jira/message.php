@@ -133,6 +133,10 @@ class JiraMessage {
                             }
                         }
                     }
+                }elseif($change['field']=='priority'){
+                    $from=$this->getPriorityName($change['fromString']);
+                    $to=$this->getPriorityName($change['toString']);
+                    $this->changelogs[]='优先级状态由'.$from.'改成'.$to;
                 }
             }
         }
@@ -196,6 +200,17 @@ class JiraMessage {
             'ios',
             'go'
         ];
+    }
+
+    public function getPriorityName($eng){
+
+        switch (strtolower($eng)) {
+            case 'major':return '一般';break;
+            case 'blocker':return '紧急';break;
+            case 'critical':return '重要';break;
+            case 'minor':return '次要';break;
+            case 'trivial':return '无关紧要';break;
+        }
     }
 
     /**
