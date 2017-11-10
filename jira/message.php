@@ -133,6 +133,10 @@ class JiraMessage {
                             }
                         }
                     }
+                }elseif($change['field']=='priority'){
+                    $from=$this->getPriorityName($change['fromString']);
+                    $to=$this->getPriorityName($change['toString']);
+                    $this->changelogs[]='优先级状态由'.$from.'改成'.$to;
                 }
             }
         }
@@ -159,6 +163,9 @@ class JiraMessage {
             'lijialin'=>'15910442846',
             'haohuili'=>'18501219135',
             'baibaoqiang'=>'15201496976',
+            'liuyanmei'=>'13401162965',
+            'kongbin'=>'15801261092',
+            'webxu'=>'15011103838',
             // andriod
             'jingke'=>'17701304842',
             'wangliang'=>'15810359716',
@@ -167,8 +174,7 @@ class JiraMessage {
             'jiamao'=>'15010981834',
             'fulong0320'=>'17611228816',
             'liubaoheng'=>'18337142091',
-            '张茹'=>'18511306676'
-
+            '张茹'=>'18511306676',
         ];
     }
 
@@ -194,6 +200,17 @@ class JiraMessage {
             'ios',
             'go'
         ];
+    }
+
+    public function getPriorityName($eng){
+
+        switch (strtolower($eng)) {
+            case 'major':return '一般';break;
+            case 'blocker':return '紧急';break;
+            case 'critical':return '重要';break;
+            case 'minor':return '次要';break;
+            case 'trivial':return '无关紧要';break;
+        }
     }
 
     /**
