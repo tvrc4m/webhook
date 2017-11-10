@@ -1,10 +1,10 @@
 <?php
 
-$title=$_GET['title'];
-$text=$_GET['text'];
-$access_token='699b16574ca2c3c851095fe5555fe5b878a5d96e4303d0a5ce8a1d991e3b1166';
+$script=$_GET['script'];
+$ding_array = unserialize($script);
+$access_token='c411aafaaadedc846a9c3aa498e6c38c55434406387cb5e4d555b19dd37d39da';
 
-if(empty($title) || empty($text)) exit('缺少参数');
+if(empty($ding_array['name']) || empty($ding_array['run_time'])) exit('缺少参数');
 
 define('ROOT', __DIR__);
 
@@ -13,6 +13,4 @@ include_once(ROOT.'/dingtalk/notify.php');
 
 $dingtalk_notify=new DingtalkNotify($access_token);
 
-$dingtalk_notify->deployStart($title,$text);    
-
-print_r($result);
+$dingtalk_notify->scriptSuccess($ding_array);    
