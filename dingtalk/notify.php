@@ -251,8 +251,8 @@ class DingtalkNotify {
         $text.=">[脚本名称：{$ding_array['name']}]\n\n";
         $text.=">[脚本执行时间：{$ding_array['datetime']}]\n\n";
         $text.=">[脚本耗时时间：{$ding_array['run_time']}]\n\n";
-        $text.=">[脚本占用内存：{$ding_array['datetime']}]\n\n";
-        $text.=">[脚本执行状态：{$ding_array['run_time']}]\n\n";
+        $text.=">[脚本占用内存：{$ding_array['memory_occupied']}]\n\n";
+        $text.=">[脚本执行状态：{$ding_array['stat']}]\n\n";
 
         //$text=" {$assignee} 解决了任务: {$issue}\n\n> [{$title}]({$url})\n\n> 优先级: {$priority['name']}\n\n{$notify_users_list}";
         //$data=$this->markdown($assignee.' 解决了任务: '.$issue,$text,$groups['php']['test']);
