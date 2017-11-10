@@ -247,8 +247,8 @@ class DingtalkNotify {
     public function scriptSuccess($ding_array){
 
         $text="{$ding_array['name']}脚本执行状况\n\n";
-        $text.=">[{$ding_array['desc']}]\n\n";
         $text.=">[脚本名称：{$ding_array['name']}]\n\n";
+        $text.=">[脚本描述：{$ding_array['desc']}]\n\n";
         $text.=">[脚本执行时间：{$ding_array['datetime']}]\n\n";
         $text.=">[脚本耗时时间：{$ding_array['run_time']}]\n\n";
         $text.=">[脚本占用内存：{$ding_array['memory_occupied']}]\n\n";
