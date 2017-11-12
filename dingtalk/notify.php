@@ -218,18 +218,24 @@ class DingtalkNotify {
      * @param  gitlab_message $gitlab_message 
      * @return 
      */
-    public function reqMerge(gitlab_message $gitlab_message){
+    public function reqMerge(GitlabMessage $gitlab_message){
 
         $branch=$gitlab_message->getBranchName();
 
-        $text="{$branch}分支之前已合并到develop,现在有更新，如若需要重新合并到develop，请点击下面的链接";
+        $text="####{$branch}分支之前已合并到develop,现在有更新，如若需要重新合并到develop，请点击下面的链接";
+
+        $uniq=uniqid();
 
         $merge_btn=[
-            'title'=>'合并{$branch}到develop',
-            'actionURL'=>$this->webhook_url."/merge.php?branch={$branch}&project=php&access_token={$this->access_token}"
+            'title'=>"合并{$branch}到develop",
+            'actionURL'=>$this->webhook_url."/merge.php?branch={$branch}&key={$uniq}&project=php&access_token={$this->access_token}"
         ];
+        // 记录保存的key
+        @file_put_contents(ROOT.'/log/click_merged.log',$uniq.PHP_EOL,FILE_APPEND);
 
-        $data=$this->card("{$branch}分支代码更新,请求合并",$text,"合并{$branch}到develop",$merge_btn);
+        $data=$this->card("{$branch}分支代码更新,请求合并",$text,[$merge_btn]);
+
+        return $this->http($data);
     }
     /**
      * 开始deploy的提示

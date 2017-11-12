@@ -41,7 +41,8 @@ switch ($action) {
 
                 if(in_array($branch_name, $develop_merged_list)){
                     // 发送请求合并的通知
-                    $dingtalk_notify->reqMerge($gitlab_message);
+                    $resp=$dingtalk_notify->reqMerge($gitlab_message);
+                    print_r($resp);
                 }
             }
         }

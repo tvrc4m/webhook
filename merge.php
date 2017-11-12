@@ -2,6 +2,7 @@
 
 $project = $_GET['project'];
 $src_branch = $_GET['branch'];
+$key = $_GET['key'];
 $access_token = $_GET['access_token'];
 
 if (empty($project) || empty($src_branch)) {
@@ -13,6 +14,29 @@ if($project!='php'){
 }
 
 define('ROOT', __DIR__);
+
+$click_merged_file=ROOT."/log/click_merged.log";
+
+$click_merged_content=@file_get_contents($click_merged_file);
+
+$click_merged_list=array_filter(explode("\n", $click_merged_content));
+
+if(!in_array($key, $click_merged_list)){
+
+	exit('已执行');
+}
+
+@unlink($click_merged_file);
+// 重建key文件
+foreach ($click_merged_list as $list) {
+	
+	if($list!=$key){
+
+		@file_put_contents($click_merged_file, $list.PHP_EOL,FILE_APPEND);
+	}
+}
+
+if(!in_array($src_branch, haystack))
 
 include_once ROOT . '/dingtalk/notify.php';
 include_once ROOT . '/gitlab/api.php';
