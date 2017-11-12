@@ -195,12 +195,17 @@ class DingtalkNotify {
 
         if($update_merge==1){
 
+            $uniq=uniqid();
+
             $merge_btn=[
-                'title'=>"合并到develop",
+                'title'=>"合并到develop分支",
                 'actionURL'=>$this->webhook_url."/merge.php?branch={$branch}&key={$uniq}&project=php&access_token={$this->access_token}"
             ];
 
             array_push($btns, $merge_btn);
+
+            // 记录保存的key
+            @file_put_contents(ROOT.'/log/click_merged.log',$uniq.PHP_EOL,FILE_APPEND);
 
             $text.="> *!!只有确定改好的代码才允许合并到develop分支!!*";
         }
