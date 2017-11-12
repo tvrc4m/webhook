@@ -178,10 +178,7 @@ class DingtalkNotify {
             'actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=staging&access_token={$this->access_token}"
         ];
 
-        $merge_btn=[
-            'title'=>"合并到develop",
-            'actionURL'=>$this->webhook_url."/merge.php?branch={$branch}&key={$uniq}&project=php&access_token={$this->access_token}"
-        ];
+        $btns=[$test];
 
         // $test_url=$this->webhook_url."/deploy.php?branch={$branch}&env=test&access_token={$this->access_token}";
 
@@ -198,10 +195,17 @@ class DingtalkNotify {
 
         if($update_merge==1){
 
-             $text.="> *!!只有确定改好的代码才允许合并到develop分支!!*";
+            $merge_btn=[
+                'title'=>"合并到develop",
+                'actionURL'=>$this->webhook_url."/merge.php?branch={$branch}&key={$uniq}&project=php&access_token={$this->access_token}"
+            ];
+
+            array_push($btns, $merge_btn);
+
+            $text.="> *!!只有确定改好的代码才允许合并到develop分支!!*";
         }
 
-        $data=$this->card("{$branch}分支代码更新",$text,[$test,$merge_btn]);
+        $data=$this->card("{$branch}分支代码更新",$text,$btns);
 
         return $this->http($data);
 
