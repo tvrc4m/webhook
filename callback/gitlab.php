@@ -29,9 +29,10 @@ switch ($action) {
     case 'push':
     {
         if(!$gitlab_message->isDeleted()){
-            $result=$dingtalk_notify->gitPush($gitlab_message);
 
             $branch_name=$gitlab_message->getBranchName();
+
+            $update_merge=0;
 
             if(!in_array($branch_name, ['master','app','develop'])){
 
@@ -41,10 +42,13 @@ switch ($action) {
 
                 if(in_array($branch_name, $develop_merged_list)){
                     // 发送请求合并的通知
-                    $resp=$dingtalk_notify->reqMerge($gitlab_message);
-                    print_r($resp);
+                    $update_merge=1;
+                    // $resp=$dingtalk_notify->reqMerge($gitlab_message);
+                    // print_r($resp);
                 }
             }
+
+            $result=$dingtalk_notify->gitPush($gitlab_message,$update_merge);
         }
         break;   
     }

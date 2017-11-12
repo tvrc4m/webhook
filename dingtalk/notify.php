@@ -145,7 +145,7 @@ class DingtalkNotify {
      * @param  GitlabMessage $gitlab_message 
      * @return 
      */
-    public function gitPush(GitlabMessage $gitlab_message){
+    public function gitPush(GitlabMessage $gitlab_message,$update_merge){
 
         $project=$gitlab_message->getProject();
         $username=$gitlab_message->getUserName();
@@ -166,7 +166,7 @@ class DingtalkNotify {
         }
 
         $test=[
-            'title'=>'部署TEST环境',
+            'title'=>'部署到TEST环境',
             'actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=test&access_token={$this->access_token}"
         ];
         $dev=[
@@ -178,7 +178,12 @@ class DingtalkNotify {
             'actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=staging&access_token={$this->access_token}"
         ];
 
-        $test_url=$this->webhook_url."/deploy.php?branch={$branch}&env=test&access_token={$this->access_token}";
+        $merge_btn=[
+            'title'=>"合并到develop",
+            'actionURL'=>$this->webhook_url."/merge.php?branch={$branch}&key={$uniq}&project=php&access_token={$this->access_token}"
+        ];
+
+        // $test_url=$this->webhook_url."/deploy.php?branch={$branch}&env=test&access_token={$this->access_token}";
 
         // if(in_array($branch, ['develop','app'])){
 
@@ -191,7 +196,12 @@ class DingtalkNotify {
         //     $btns=[$test,$dev,$staging];
         // }
 
-        $data=$this->single("{$branch}分支代码更新",$text,'部署到TEST环境',$test_url);
+        if($update_merge==1){
+
+             $text.="> *!!只有确定改好的代码才允许合并到develop分支!!*";
+        }
+
+        $data=$this->card("{$branch}分支代码更新",$text,[$test,$merge_btn]);
 
         return $this->http($data);
 
