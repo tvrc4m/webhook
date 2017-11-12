@@ -119,7 +119,7 @@ switch ($action) {
                 }else{
                     // 采用gitlab webhook通知
                     // 合并成功,记录这次分支合并                    
-                    @file_put_contents('../log/develop_merged.log', $src_branch.PHP_EOL,FILE_APPEND);
+                    @file_put_contents(ROOT.'/log/develop_merged.log', $src_branch.PHP_EOL,FILE_APPEND);
                 }
             }
         }
