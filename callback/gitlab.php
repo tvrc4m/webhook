@@ -30,7 +30,21 @@ switch ($action) {
     {
         if(!$gitlab_message->isDeleted()){
             $result=$dingtalk_notify->gitPush($gitlab_message);
-            print_r($result);
+
+            $branch_name=$gitlab_message->getBranchName();
+
+            if(!in_array($branch_name, ['master','app','develop'])){
+
+                $develop_merged_content=file_get_contents("../log/develop_merged.log");
+
+                $develop_merged_list=array_filter(explode("\n", $develop_merged_content));
+
+                if(in_array($branch_name, $develop_merged_list)){
+
+                    // 发送请求合并的通知
+                    $dingtalk_notify->reqMerge($gitlab_message);
+                }
+            }
         }
         break;   
     }

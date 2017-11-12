@@ -212,6 +212,25 @@ class DingtalkNotify {
                 break;        
         } 
     }
+
+    /**
+     * 请求合并分支
+     * @param  gitlab_message $gitlab_message 
+     * @return 
+     */
+    public function reqMerge(gitlab_message $gitlab_message){
+
+        $branch=$gitlab_message->getBranchName();
+
+        $text="{$branch}分支之前已合并到develop,现在有更新，如若需要重新合并到develop，请点击下面的链接";
+
+        $merge_btn=[
+            'title'=>'合并{$branch}到develop',
+            'actionURL'=>$this->webhook_url."/merge.php?branch={$branch}&project=php&access_token={$this->access_token}"
+        ];
+
+        $data=$this->card("{$branch}分支代码更新,请求合并",$text,"合并{$branch}到develop",$merge_btn);
+    }
     /**
      * 开始deploy的提示
      * @return 
