@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL ^ E_NOTICE);
+ini_set('display_errors', 'Off');
+
 $project = $_GET['project'];
 $src_branch = $_GET['branch'];
 $key = $_GET['key'];
