@@ -36,7 +36,9 @@ foreach ($click_merged_list as $list) {
 	}
 }
 
-if(!in_array($src_branch, haystack))
+if(in_array($src_branch, ['master','develop','app'])){
+	exit('不能合并');
+}
 
 include_once ROOT . '/dingtalk/notify.php';
 include_once ROOT . '/gitlab/api.php';
