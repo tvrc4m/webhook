@@ -36,7 +36,7 @@ switch ($action) {
 
             if(!in_array($branch_name, ['master','app','develop'])){
 
-                $develop_merged_content=file_get_contents(ROOT."/log/develop_merged.log");
+                $develop_merged_content=@file_get_contents("/var/log/develop_merged.log");
 
                 $develop_merged_list=array_filter(explode("\n", $develop_merged_content));
 

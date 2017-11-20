@@ -205,7 +205,7 @@ class DingtalkNotify {
             array_push($btns, $merge_btn);
 
             // 记录保存的key
-            @file_put_contents(ROOT.'/log/click_merged.log',$uniq.PHP_EOL,FILE_APPEND);
+            @file_put_contents('/var/log/click_merged.log',$uniq.PHP_EOL,FILE_APPEND);
 
             $text.="> *!!只有确定改好的代码才允许合并到develop分支!!*";
         }
@@ -250,7 +250,7 @@ class DingtalkNotify {
             'actionURL'=>$this->webhook_url."/merge.php?branch={$branch}&key={$uniq}&project=php&access_token={$this->access_token}"
         ];
         // 记录保存的key
-        @file_put_contents(ROOT.'/log/click_merged.log',$uniq.PHP_EOL,FILE_APPEND);
+        @file_put_contents('/var/log/click_merged.log',$uniq.PHP_EOL,FILE_APPEND);
 
         $data=$this->card("{$branch}分支代码更新,请求合并",$text,[$merge_btn]);
 

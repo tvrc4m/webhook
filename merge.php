@@ -18,7 +18,7 @@ if($project!='php'){
 
 define('ROOT', __DIR__);
 
-$click_merged_file=ROOT."/log/click_merged.log";
+$click_merged_file="/var/log/click_merged.log";
 
 $click_merged_content=@file_get_contents($click_merged_file);
 
