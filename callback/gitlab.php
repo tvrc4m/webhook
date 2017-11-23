@@ -32,23 +32,34 @@ switch ($action) {
 
             $branch_name=$gitlab_message->getBranchName();
 
-            $update_merge=0;
+            $update_merge_develop=$update_merge_app=0;
 
             if(!in_array($branch_name, ['master','app','develop'])){
-
+                // 检测develop分支
                 $develop_merged_content=@file_get_contents("/var/log/develop_merged.log");
 
                 $develop_merged_list=array_filter(explode("\n", $develop_merged_content));
 
                 if(in_array($branch_name, $develop_merged_list)){
                     // 发送请求合并的通知
-                    $update_merge=1;
+                    $update_merge_develop=1;
+                    // $resp=$dingtalk_notify->reqMerge($gitlab_message);
+                    // print_r($resp);
+                }
+                // 检测app分支
+                $app_merged_content=@file_get_contents("/var/log/app_merged.log");
+
+                $app_merged_list=array_filter(explode("\n", $app_merged_content));
+
+                if(in_array($branch_name, $app_merged_list)){
+                    // 发送请求合并的通知
+                    $update_merge_app=1;
                     // $resp=$dingtalk_notify->reqMerge($gitlab_message);
                     // print_r($resp);
                 }
             }
 
-            $result=$dingtalk_notify->gitPush($gitlab_message,$update_merge);
+            $result=$dingtalk_notify->gitPush($gitlab_message,$update_merge_develop,$update_merge_app);
         }
         break;   
     }

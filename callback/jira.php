@@ -38,13 +38,16 @@ switch ($action) {
         $result=$dingtalk_notify->issueUpdated($jira_message);
         // 当issue由staging测试及开发完成时
         // 目前只支持php项目
-        if ($project=='php' && $jira_message->test_staging) {
+        if ($project=='php' &&( $jira_message->test_staging || $jira_message->is_resolved)) {
             
             include_once(ROOT.'/gitlab/api.php');
 
             if($jira_message->test_staging){
 
                 $dest_branch='develop';
+            }else if($jira_message->is_resolved){
+
+                $dest_branch='app';
             }
 
             $gitlab_api=new GitlabApi();
@@ -119,7 +122,11 @@ switch ($action) {
                 }else{
                     // 采用gitlab webhook通知
                     // 合并成功,记录这次分支合并                    
-                    @file_put_contents('/var/log/develop_merged.log', $src_branch."\n",FILE_APPEND);
+                    if($dest_branch=='develop'){
+                        @file_put_contents('/var/log/develop_merged.log', $src_branch."\n",FILE_APPEND);    
+                    }elseif($dest_branch=='app'){
+                        @file_put_contents('/var/log/app_merged.log', $src_branch."\n",FILE_APPEND);
+                    }
                 }
             }
         }

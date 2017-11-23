@@ -30,9 +30,9 @@ class JiraMessage {
 
     private $is_transition=false;
 
-    private $is_resolved=false;
+    public $is_resolved=false;
 
-    private $is_reopened=false;
+    public $is_reopened=false;
 
     private $is_comment=false;
 

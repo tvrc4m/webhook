@@ -145,7 +145,7 @@ class DingtalkNotify {
      * @param  GitlabMessage $gitlab_message 
      * @return 
      */
-    public function gitPush(GitlabMessage $gitlab_message,$update_merge){
+    public function gitPush(GitlabMessage $gitlab_message,$update_merge_develop=0,$update_merge_app=0){
 
         $project=$gitlab_message->getProject();
         $username=$gitlab_message->getUserName();
@@ -193,21 +193,36 @@ class DingtalkNotify {
         //     $btns=[$test,$dev,$staging];
         // }
 
-        if($update_merge==1){
+        if($update_merge_develop==1){
 
             $uniq=uniqid();
 
             $merge_btn=[
                 'title'=>"合并到develop分支",
-                'actionURL'=>$this->webhook_url."/merge.php?branch={$branch}&key={$uniq}&project=php&access_token={$this->access_token}"
+                'actionURL'=>$this->webhook_url."/merge.php?branch={$branch}&key={$uniq}&dest=develop&project=php&access_token={$this->access_token}"
             ];
 
             array_push($btns, $merge_btn);
 
             // 记录保存的key
-            @file_put_contents('/var/log/click_merged.log',$uniq.PHP_EOL,FILE_APPEND);
+            @file_put_contents('/var/log/click_develop_merged.log',$uniq.PHP_EOL,FILE_APPEND);
 
             $text.="> *!!只有确定改好的代码才允许合并到develop分支!!*";
+        }
+
+        if($update_merge_app==1){
+
+            $uniq=uniqid();
+
+            $merge_btn=[
+                'title'=>"合并到app分支",
+                'actionURL'=>$this->webhook_url."/merge.php?branch={$branch}&key={$uniq}&dest=app&project=php&access_token={$this->access_token}"
+            ];
+
+            array_push($btns, $merge_btn);
+
+            // 记录保存的key
+            @file_put_contents('/var/log/click_app_merged.log',$uniq.PHP_EOL,FILE_APPEND);
         }
 
         $data=$this->card("{$branch}分支代码更新",$text,$btns);

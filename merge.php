@@ -5,6 +5,7 @@ ini_set('display_errors', 'Off');
 
 $project = $_GET['project'];
 $src_branch = $_GET['branch'];
+$dest_branch = $_GET['dest'];
 $key = $_GET['key'];
 $access_token = $_GET['access_token'];
 
@@ -18,7 +19,13 @@ if($project!='php'){
 
 define('ROOT', __DIR__);
 
-$click_merged_file="/var/log/click_merged.log";
+if($dest_branch=='develop'){
+
+	$click_merged_file="/var/log/click_develop_merged.log";	
+}elseif($dest_branch=='app'){
+
+	$click_merged_file="/var/log/click_app_merged.log";
+}
 
 $click_merged_content=@file_get_contents($click_merged_file);
 
@@ -49,7 +56,6 @@ include_once ROOT . '/gitlab/api.php';
 $dingtalk_notify = new DingtalkNotify($access_token);
 $gitlab_api = new GitlabApi();
 
-$dest_branch = 'develop';
 $title = ' merge ' . $src_branch . ' to ' . $dest_branch;
 $operator="魏山";
 
