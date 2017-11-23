@@ -71,7 +71,7 @@ if (empty($branchInfo) || isset($branchInfo['message'])) {
 
 // 发起请求
 $result = $gitlab_api->createMergeRequest($src_branch, $dest_branch, $operator . $title);
-
+@file_put_contents('/tmp/merge_request.log', var_export($result,true),FILE_APPEND);
 if (empty($result)) {
 
 	$dingtalk_notify->notifyText($title, $operator . $title . "合并请求失败");
