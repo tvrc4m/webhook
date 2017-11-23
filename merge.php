@@ -18,6 +18,7 @@ if($project!='php'){
 }
 
 define('ROOT', __DIR__);
+define('BASEURL', 'http://webhook.vrcdkj.cn');
 
 if($dest_branch=='develop'){
 

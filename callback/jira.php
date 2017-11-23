@@ -49,14 +49,14 @@ switch ($action) {
         
         // 当issue由staging测试及开发完成时
         // 目前只支持php项目
-        if ($project=='php' && ($jira_message->test_staging || $jira_message->is_resolved)) {
+        if ($project=='php' && ($jira_message->test_staging || $jira_message->test_dev)) {
             
             include_once(ROOT.'/gitlab/api.php');
 
             if($jira_message->test_staging){
 
                 $dest_branch='develop';
-            }else if($jira_message->is_resolved){
+            }else if($jira_message->test_dev){
 
                 $dest_branch='app';
             }

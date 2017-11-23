@@ -41,6 +41,7 @@ class JiraMessage {
      * @var boolean
      */
     public $test_staging=false;
+    public $test_dev=false;
 
     private $comment;
     /**
@@ -124,8 +125,10 @@ class JiraMessage {
 
                         $this->is_resolved=true;
                     }elseif($change['to']==10007){
-                        
+
                         $this->is_reopened=true;
+                    }elseif($change['from']==10001 && $change['to']==10005){
+                        $this->test_dev=true;
                     }
                 }elseif($change['field']=='Attachment'){
 
