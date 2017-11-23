@@ -35,10 +35,21 @@ switch ($action) {
 
     case 'jira:issue_updated':
     {
-        $result=$dingtalk_notify->issueUpdated($jira_message);
+        
+        if($jira_message->is_resolved){
+
+            $result=$dingtalk_notify->issueResolved($jira_message);
+        }else if($jira_message->is_reopened){
+
+            $result=$dingtalk_notify->issueReopened($jira_message);
+        }else{
+
+            $result=$dingtalk_notify->issueUpdated($jira_message);    
+        }
+        
         // 当issue由staging测试及开发完成时
         // 目前只支持php项目
-        if ($project=='php' &&( $jira_message->test_staging || $jira_message->is_resolved)) {
+        if ($project=='php' && ($jira_message->test_staging || $jira_message->is_resolved)) {
             
             include_once(ROOT.'/gitlab/api.php');
 
@@ -132,16 +143,5 @@ switch ($action) {
         }
 
         break;
-    }
-}
-
-if($jira_message->isTransition()){
-
-    if($jira_message->IsIssueResolved()){
-        
-        $result=$dingtalk_notify->issueResolved($jira_message);
-    }else if($jira_message->IsIssueReopened()){
-
-        $result=$dingtalk_notify->issueReopened($jira_message);
     }
 }

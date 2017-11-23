@@ -78,15 +78,15 @@ class JiraMessage {
         $this->parent_issue=$post['issue']['parent']['key'];
         // issue 类型
         $this->issue_type=$post['issue']['fields']['issuetype']['name'];
-        // 进度通知
-        $this->is_transition=isset($post['transition']);
+        // // 进度通知
+        // $this->is_transition=isset($post['transition']);
 
-        if($this->is_transition){
-            // issue的状态是否已完成
-            $this->is_resolved=$post['transition']['transitionName']=='开发完成';
-            // issue的状态是否已reopen
-            $this->is_reopened=$post['transition']['transitionName']=='重新开发';
-        }
+        // if($this->is_transition){
+        //     // issue的状态是否已完成
+        //     $this->is_resolved=$post['transition']['transitionName']=='开发完成';
+        //     // issue的状态是否已reopen
+        //     $this->is_reopened=$post['transition']['transitionName']=='重新开发';
+        // }
         // 更新是否是新增备注
         $this->is_comment=$post['comment'];
 
