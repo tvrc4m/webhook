@@ -40,7 +40,16 @@ switch ($action) {
 
                 $develop_merged_list=array_filter(explode("\n", $develop_merged_content));
 
-                if(in_array($branch_name, $develop_merged_list)){
+                $branch_list=[];
+
+                foreach ($develop_merged_list as $list) {
+                    
+                    list($branch,$merge_id)=array_filter(explode('$$', $list));
+
+                    $branch_list[]=$branch;
+                }
+
+                if(in_array($branch_name, $branch_list)){
                     // 发送请求合并的通知
                     $update_merge_develop=1;
                     // $resp=$dingtalk_notify->reqMerge($gitlab_message);
@@ -51,7 +60,16 @@ switch ($action) {
 
                 $app_merged_list=array_filter(explode("\n", $app_merged_content));
 
-                if(in_array($branch_name, $app_merged_list)){
+                $branch_list=[];
+
+                foreach ($app_merged_list as $list) {
+                    
+                    list($branch,$merge_id)=array_filter(explode('$$', $list));
+
+                    $branch_list[]=$branch;
+                }
+
+                if(in_array($branch_name, $branch_list)){
                     // 发送请求合并的通知
                     $update_merge_app=1;
                     // $resp=$dingtalk_notify->reqMerge($gitlab_message);

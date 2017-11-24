@@ -133,10 +133,11 @@ switch ($action) {
                 }else{
                     // 采用gitlab webhook通知
                     // 合并成功,记录这次分支合并                    
+                    $log=$src_branch.'$$'.$result['id'].'$$'.$result['message'].'$$'.$result['web_url']."\n";
                     if($dest_branch=='develop'){
-                        @file_put_contents('/var/log/develop_merged.log', $src_branch."\n",FILE_APPEND);    
+                        @file_put_contents('/var/log/develop_merged.log',$log,FILE_APPEND);    
                     }elseif($dest_branch=='app'){
-                        @file_put_contents('/var/log/app_merged.log', $src_branch."\n",FILE_APPEND);
+                        @file_put_contents('/var/log/app_merged.log',$log,FILE_APPEND);
                     }
                 }
             }
