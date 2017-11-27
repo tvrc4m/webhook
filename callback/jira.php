@@ -129,7 +129,15 @@ switch ($action) {
                     $dingtalk_notify->notifyText($title,$operator.$title.'合并请求失败');
                 }elseif($response['message']){
 
-                    $dingtalk_notify->notifyTextUrl($operator.$title,$response['message'],$result['web_url'],BASEURL.'/git-icon.png');
+                    if($gitlab_api->http_code==403){
+                        $message="存在冲突,需要开发者手动合并到".$dest_branch."解决冲突然后提交";
+                    }elseif($gitlab_api->http_code==406){
+                        $message="该分支已合并到".$dest_branch;
+                    }elseif($gitlab_api->http_code==401){
+                        $message="没有权限进行合并";
+                    }
+
+                    $dingtalk_notify->notifyTextUrl($operator.$title,$message,$result['web_url'],BASEURL.'/git-icon.png');
                 }else{
                     // 采用gitlab webhook通知
                     // 合并成功,记录这次分支合并                    
