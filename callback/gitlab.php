@@ -77,7 +77,10 @@ switch ($action) {
                 }
             }
 
-            $result=$dingtalk_notify->gitPush($gitlab_message,$update_merge_develop,$update_merge_app);
+            if($update_merge_app || $update_merge_app){
+                // 只有合并到app或develop分支的代码才会提醒
+                $result=$dingtalk_notify->gitPush($gitlab_message,$update_merge_develop,$update_merge_app);
+            }
         }
         break;   
     }

@@ -242,7 +242,7 @@ class DingtalkNotify {
             //     $data=$this->single($title,"\t".$title.' 请求已创建,等待合并','查看详情',$url);
             //     break;
             case 'merged':
-                $this->notifyTextUrl($title,'已合并',$url,$gitlab_message->merge_image);
+                $this->notifyTextUrl($title,"已合并\n点击查看提交记录和修改文件对比",$url,$gitlab_message->merge_image);
                 break;        
         } 
     }
