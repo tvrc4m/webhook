@@ -318,6 +318,18 @@ class DingtalkNotify {
         $data=$this->markdown('定时任务',$text);
         return $resp=$this->http($data);
     }
+    /**
+     * 通知提醒@ALL
+     * @param  string $title 
+     * @param  string $text  
+     * @return 
+     */
+    public function notifyAll($title,$text){
+
+        $data=$this->markdown($title,$text,$assignee=[],true);
+
+        return $this->http($data);
+    }
 
     /**
      * 普通文本通知
@@ -385,13 +397,13 @@ class DingtalkNotify {
      * @param  array $assignee 
      * @return 
      */
-    private function markdown($title,$text,$assignee=[]){
+    private function markdown($title,$text,$assignee=[],$isall=false){
 
         return 
         [
             'msgtype'=>'markdown',
             'markdown'=>['title'=>$title,'text'=>$text],
-            'at'=>['atMobiles'=>$assignee,'isAtAll'=>false]
+            'at'=>['atMobiles'=>$assignee,'isAtAll'=>$isall]
         ];
     }
 
