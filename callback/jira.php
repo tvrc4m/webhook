@@ -129,7 +129,7 @@ switch ($action) {
                     $dingtalk_notify->notifyText($title,$operator.$title.'合并请求失败');
                 }elseif($response['message']){
 
-                    if($gitlab_api->http_code==403){
+                    if($gitlab_api->http_code==405){
                         $message="存在冲突,需要开发者手动合并到".$dest_branch."解决冲突然后提交";
                     }elseif($gitlab_api->http_code==406){
                         $message="该分支已合并到".$dest_branch;
