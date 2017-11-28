@@ -118,6 +118,8 @@ switch ($action) {
 
                 $dingtalk_notify->notifyText($title,$operator.$title."合并请求失败");
             }elseif($result['message']){
+                // 删除合并请求
+                $gitlab_api->delMergeRequest($result['id']);
 
                 $dingtalk_notify->notifyTextUrl($operator.$title,$result['message'],$result['web_url'],BASEURL.'/git-icon.png');
             }else{

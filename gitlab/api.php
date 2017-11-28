@@ -70,6 +70,15 @@ class GitlabApi {
         return $result;
     }
 
+    public function delMergeRequest($merge_request_iid){
+
+        $url="/projects/".$this->project_id.'/merge_requests/'.$merge_request_iid;
+
+        $result=$this->http($url,'DELETE',[]);
+
+        return $result;
+    }
+
     /**
      * 获取分支名
      * @param  string $branch 

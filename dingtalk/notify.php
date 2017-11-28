@@ -234,7 +234,7 @@ class DingtalkNotify {
     public function gitMerge(GitlabMessage $gitlab_message){
 
         $title=$gitlab_message->merge_title;
-        $url=$gitlab_message->merge_web_url;
+        $url=$gitlab_message->merge_web_url."/commits";
 
         switch ($gitlab_message->merge_status) {
 
