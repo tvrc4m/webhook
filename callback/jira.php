@@ -128,11 +128,11 @@ switch ($action) {
 
                     $dingtalk_notify->notifyText($title,$operator.$title.'合并请求失败');
                 }elseif($response['message']){
-
-                    if($gitlab_api->http_code==405){
+                    @file_put_contents('/tmp/merged_code.log', $gitlab_api->http_code,FILE_APPEND);
+                    if($gitlab_api->http_code==406){
                         $message="存在冲突,需要开发者手动合并到".$dest_branch."解决冲突然后提交";
-                    }elseif($gitlab_api->http_code==406){
-                        $message="该分支已合并到".$dest_branch;
+                    }elseif($gitlab_api->http_code==405){
+                        $message="该分支已合并到".$dest_branch."或者该分支不存在";
                     }elseif($gitlab_api->http_code==401){
                         $message="没有权限进行合并";
                     }
