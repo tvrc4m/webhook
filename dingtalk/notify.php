@@ -235,7 +235,9 @@ class DingtalkNotify {
 
         $title=$gitlab_message->merge_title;
         $url=$gitlab_message->merge_web_url."/commits";
-
+        $user_name=$gitlab_message->git_user_name;
+        $title=preg_replace('/^(.*?)\s/', $user_name." ",$title);
+        
         switch ($gitlab_message->merge_status) {
 
             // case 'opened':

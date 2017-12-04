@@ -17,7 +17,7 @@ class GitlabMessage {
      * git提交时的用户名
      * @var string
      */
-    private $git_user_name;
+    public $git_user_name;
 
     private $is_deleted=false;
 
@@ -38,6 +38,7 @@ class GitlabMessage {
         $this->branch_name=str_replace('refs/heads/','', $post['ref']);
 
         $this->user_name=$this->getDisplayName($post['user_name']);
+        $this->git_user_name=$this->getDisplayName($post['user']['name']);
         $user_email=$post['user_email'];
 
         $this->commits=[];
