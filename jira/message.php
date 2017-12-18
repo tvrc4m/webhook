@@ -129,6 +129,8 @@ class JiraMessage {
                         $this->is_reopened=true;
                     }elseif($change['from']==10001 && $change['to']==10005){
                         $this->test_dev=true;
+                    }elseif($change['from']==10004 && $change['to']==10104){
+                        $this->is_resolved=true;
                     }
                 }elseif($change['field']=='Attachment'){
 
