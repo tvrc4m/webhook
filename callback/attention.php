@@ -16,7 +16,7 @@ if($month==5 && in_array($day,[1])) return;
 if($month==6 && in_array($day,[18])) return;
 if($month==9 && in_array($day,[24])) return;
 
-$access_token='699b16574ca2c3c851095fe5555fe5b878a5d96e4303d0a5ce8a1d991e3b1166';
+$access_token='72f583366e685e7de36cd25715d77e3cc5bb07a512bb5ebd5e8da9ddb0c32b07';
 
 include_once(ROOT.'/dingtalk/notify.php');
 
