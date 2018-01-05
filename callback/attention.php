@@ -34,7 +34,7 @@ $pre=intval($pre);
 
 $current=($count<=$pre+1)?0:$pre+1;
 
-$dingtalk_notify->notifyText('今日DEV环境负责人','负责定位问题,由问题生成者解决: '.$developers[$current]);
+$dingtalk_notify->notifyText('今日DEV环境负责人','今日DEV环境专人,负责定位问题,由问题生成者解决: '.$developers[$current]);
 
 file_put_contents($logfile, $current);
 
