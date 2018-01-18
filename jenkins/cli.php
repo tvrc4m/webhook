@@ -36,7 +36,7 @@ class JenkinsCli {
 
         return 
         [
-            'test'=>'test_vrcdkj',
+            // 'test'=>'test_vrcdkj',
             'dev'=>'dev_vrcdkj',
             'staging'=>'staging_vrcdkj',
             'webhook'=>'webhook_vrcdkj',

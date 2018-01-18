@@ -165,10 +165,10 @@ class DingtalkNotify {
                 $text.=">[{$commit['message']}]({$commit['url']})\n\n";
         }
 
-        $test=[
-            'title'=>'部署到TEST环境',
-            'actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=test&access_token={$this->access_token}"
-        ];
+        // $test=[
+        //     'title'=>'部署到TEST环境',
+        //     'actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=test&access_token={$this->access_token}"
+        // ];
         $dev=[
             'title'=>'部署DEV环境',
             'actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=dev&access_token={$this->access_token}"
@@ -178,7 +178,7 @@ class DingtalkNotify {
             'actionURL'=>$this->webhook_url."/deploy.php?branch={$branch}&env=staging&access_token={$this->access_token}"
         ];
 
-        $btns=[$test];
+        $btns=[];
 
         // $test_url=$this->webhook_url."/deploy.php?branch={$branch}&env=test&access_token={$this->access_token}";
 
