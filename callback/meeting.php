@@ -24,7 +24,7 @@ include_once(ROOT.'/dingtalk/notify.php');
 
 $dingtalk_notify=new DingtalkNotify($access_token);
 
-if($week==1){
+if($week!=1){
 
     $developers=['李硕','武超','娟娟','阿勇','郑生齐','刘艳梅','许俊帅'];
 
