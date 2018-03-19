@@ -41,6 +41,7 @@ class JenkinsCli {
             'staging'=>'staging_vrcdkj',
             'webhook'=>'webhook_vrcdkj',
             'doc'=>'doc_vrcdkj',
+            'fdev'=>'fdev_vrcdkj',
         ];
     }
 
