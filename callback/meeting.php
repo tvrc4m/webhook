@@ -12,7 +12,7 @@ $day=date('d');
 // 周六和周日直接返回
 if($week==0 || $week==6) return;
 // 部分节假日
-if($month==2 && in_array($day,[12,13,14,15,16,19,20,21,22])) return;
+if($month==2 && in_array($day,[12,13,14,15,16,19,20,21,22,23])) return;
 if($month==4 && in_array($day,[5,6,30])) return;
 if($month==5 && in_array($day,[1])) return;
 if($month==6 && in_array($day,[18])) return;
