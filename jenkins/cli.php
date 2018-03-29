@@ -44,7 +44,9 @@ class JenkinsCli {
             'fdev'=>'fdev_vrcdkj',
             'fadmin'=>'fadmin_vrcdkj',
             'fexpert'=>'fexpert_vrcdkj',
-            'staging.fsb'=>'fexpert_vrcdkj',
+            'staging_expert'=>'staging_expert_vrcdkj',
+            'staging_admin'=>'staging_fsb_vrcdkj',
+            'staging_api'=>'fstaging_vrcdkj',
         ];
     }
 
