@@ -43,6 +43,8 @@ class JenkinsCli {
             'doc'=>'doc_vrcdkj',
             'fdev'=>'fdev_vrcdkj',
             'fadmin'=>'fadmin_vrcdkj',
+            'fexpert'=>'fexpert_vrcdkj',
+            'staging.fsb'=>'fexpert_vrcdkj',
         ];
     }
 
