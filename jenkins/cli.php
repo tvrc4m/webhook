@@ -6,7 +6,7 @@ class JenkinsCli {
 
     const USER_NAME='admin';
 
-    const USER_PWD='uUy23F7XU&Vq?C}edFb=';
+    const USER_PWD='admin';
 
     private $commands=['buildWithParameters'];
 
